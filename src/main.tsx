@@ -8,11 +8,11 @@ import { BrowserRouter } from "react-router-dom"
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider>
-      <FirebaseProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </FirebaseProvider>
+        <FirebaseProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </FirebaseProvider>
     </ChakraProvider>
   </React.StrictMode>,
   document.getElementById("root")
