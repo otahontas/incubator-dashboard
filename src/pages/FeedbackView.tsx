@@ -1,30 +1,31 @@
-import * as React from "react";
-import { Formik } from "formik";
-import { Center, Stack, Box, ButtonGroup, Heading } from "@chakra-ui/react";
-import * as Yup from "yup";
-import { TextareaControl, SubmitButton, ResetButton } from "formik-chakra-ui";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { useFirestore } from "reactfire";
+import * as React from "react"
+import { Formik } from "formik"
+import { Center, Stack, Box, ButtonGroup, Heading } from "@chakra-ui/react"
+import { CheckCircleIcon } from "@chakra-ui/icons"
+import * as Yup from "yup"
+import { TextareaControl, SubmitButton, ResetButton } from "formik-chakra-ui"
+import { addDoc, collection, serverTimestamp } from "firebase/firestore"
+import { useFirestore } from "reactfire"
 
 interface Form {
-  biggestObstacle: string;
-  howDidThisWeekGo: string;
+  biggestObstacle: string
+  howDidThisWeekGo: string
 }
 
 interface FormProps {
-  onSubmit: (values: Form) => Promise<void>;
+  onSubmit: (values: Form) => Promise<void>
 }
 
 const FeedbackForm = ({ onSubmit }: FormProps) => {
   const initialValues = {
     biggestObstacle: "",
     howDidThisWeekGo: "",
-  };
+  }
 
   const validationSchema = Yup.object({
     biggestObstacle: Yup.string().required(),
     howDidThisWeekGo: Yup.string().required(),
-  });
+  })
 
   return (
     <Formik
@@ -55,23 +56,30 @@ const FeedbackForm = ({ onSubmit }: FormProps) => {
         </Box>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-const CongratsMessage = () => <p>Submitted!</p>;
+const SuccessResult = () => (
+  <Box textAlign="center" py={10} px={6}>
+    <CheckCircleIcon boxSize={"50px"} color={"green.500"} />
+    <Heading as="h2" size="xl" mt={6} mb={2}>
+      Succesfully submitted
+    </Heading>
+  </Box>
+)
 
 export const FeedbackView = () => {
-  const [hasSubmitted, setHasSubmitted] = React.useState<boolean>(false);
-  const firestore = useFirestore();
+  const [hasSubmitted, setHasSubmitted] = React.useState<boolean>(false)
+  const firestore = useFirestore()
   const onSubmit = async (values: Form) => {
-    const teamId = "0ptnrAiWyTyv5eV24a1e";
+    const teamId = "0ptnrAiWyTyv5eV24a1e"
     await addDoc(collection(firestore, "teams", teamId, "feedbacks"), {
       ...values,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
-    });
-    setHasSubmitted(true);
-  };
+    })
+    setHasSubmitted(true)
+  }
   return (
     <Center mt={200}>
       <Stack>
@@ -79,9 +87,9 @@ export const FeedbackView = () => {
         {!hasSubmitted ? (
           <FeedbackForm onSubmit={onSubmit} />
         ) : (
-          <CongratsMessage />
+          <SuccessResult />
         )}
       </Stack>
     </Center>
-  );
-};
+  )
+}
