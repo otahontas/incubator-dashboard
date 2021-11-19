@@ -1,7 +1,5 @@
-import * as React from "react"
 import { Formik } from "formik"
-import { Center, Stack, Box, ButtonGroup, Heading } from "@chakra-ui/react"
-import { CheckCircleIcon } from "@chakra-ui/icons"
+import { Box, ButtonGroup, Heading, useToast } from "@chakra-ui/react"
 import * as Yup from "yup"
 import { TextareaControl, SubmitButton, ResetButton } from "formik-chakra-ui"
 import { addDoc, collection, serverTimestamp } from "firebase/firestore"
@@ -59,17 +57,8 @@ const FeedbackForm = ({ onSubmit }: FormProps) => {
   )
 }
 
-const SuccessResult = () => (
-  <Box textAlign="center" py={10} px={6}>
-    <CheckCircleIcon boxSize={"50px"} color={"green.500"} />
-    <Heading as="h2" size="xl" mt={6} mb={2}>
-      Succesfully submitted
-    </Heading>
-  </Box>
-)
-
 export const FeedbackView = () => {
-  const [hasSubmitted, setHasSubmitted] = React.useState<boolean>(false)
+  const toast = useToast()
   const firestore = useFirestore()
   const onSubmit = async (values: Form) => {
     const teamId = "0ptnrAiWyTyv5eV24a1e"
@@ -78,18 +67,17 @@ export const FeedbackView = () => {
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     })
-    setHasSubmitted(true)
+    toast({
+      title: "Feedback successfully submitted!",
+      status: "success",
+      isClosable: true,
+      duration: 5000
+    })
   }
   return (
-    <Center mt={200}>
-      <Stack>
+    <>
         <Heading>Send weekly feedback</Heading>
-        {!hasSubmitted ? (
-          <FeedbackForm onSubmit={onSubmit} />
-        ) : (
-          <SuccessResult />
-        )}
-      </Stack>
-    </Center>
+        <FeedbackForm onSubmit={onSubmit} />
+    </>
   )
 }

@@ -1,3 +1,6 @@
+import { FeedbackView } from "./FeedbackView"
+
+
 export default () => {
-  return <>Hi</>
+  return <FeedbackView />
 }
