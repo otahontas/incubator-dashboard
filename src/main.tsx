@@ -2,11 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import { ChakraProvider } from "@chakra-ui/react"
+import { FirebaseAppProvider } from 'reactfire';
+import { firebaseConfig } from "./firebaseConfig"
 
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider>
-      <App />
+      <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+        <App />
+      </FirebaseAppProvider>
     </ChakraProvider>
   </React.StrictMode>,
   document.getElementById('root')

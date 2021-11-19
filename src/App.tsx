@@ -1,8 +1,13 @@
-const App = () => {
-  return (
-    <div>
+import { getFirestore } from 'firebase/firestore';
+import { useFirebaseApp, FirestoreProvider } from 'reactfire';
 
-    </div>
+
+const App = () => {
+  const firestoreInstance = getFirestore(useFirebaseApp());
+  return (
+    <FirestoreProvider sdk={firestoreInstance}>
+
+    </FirestoreProvider>
   );
 }
 
