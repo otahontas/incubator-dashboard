@@ -1,15 +1,23 @@
 import { useRoutes, BrowserRouter } from "react-router-dom"
 import { routes } from "./routes"
-import { getFirestore } from "firebase/firestore"
-import { useFirebaseApp, FirestoreProvider, useUser } from "reactfire"
+import { useSigninCheck } from "reactfire"
+import Loading from "./sharedComponents/Loading"
+import { LoginView } from "./pages/LoginView"
 
-const App: React.FC = () => {
-  const firestoreInstance = getFirestore(useFirebaseApp())
+const App = () => {
   const appRoutes = useRoutes(routes)
-  console.log(appRoutes)
-  return (
-    <FirestoreProvider sdk={firestoreInstance}>{appRoutes}</FirestoreProvider>
-  )
+
+  const { status, data: signedInResult } = useSigninCheck()
+
+  if (status === "loading") {
+    return <Loading>Loading...</Loading>
+  }
+
+  // if (!signedInResult.signedIn) {
+  //   return <LoginView />
+  // }
+
+  return <>{appRoutes}</>
 }
 
 export default App
