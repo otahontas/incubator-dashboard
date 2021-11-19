@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom"
 import ParticipantLayout from "./layouts/ParticipantLayout"
 import ParticipantHome from "./pages/participant/Home"
-import CoachHome from "./pages/participant/Home"
+import CoachHome from "./pages/coach/Home"
 import { LoginView } from "./pages/LoginView"
 import CoachLayout from "./layouts/CoachLayout"
 
