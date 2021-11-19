@@ -1,6 +1,7 @@
 import { RouteObject } from "react-router-dom"
 import ParticipantLayout from "./layouts/ParticipantLayout"
-import Home from "./pages/participant/Home"
+import ParticipantHome from "./pages/participant/Home"
+import CoachHome from "./pages/participant/Home"
 import { LoginView } from "./pages/LoginView"
 import CoachLayout from "./layouts/CoachLayout"
 
@@ -15,7 +16,7 @@ export const routes: RouteObject[] = [
     children: [
       {
         path: "/participant/",
-        element: <Home />,
+        element: <ParticipantHome />,
       },
     ],
   },
@@ -25,7 +26,7 @@ export const routes: RouteObject[] = [
     children: [
       {
         path: "/coach/",
-        element: <Home />,
+        element: <CoachHome />,
       },
     ],
   },
