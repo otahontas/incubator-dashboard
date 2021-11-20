@@ -1,33 +1,36 @@
-import { useRoutes, BrowserRouter, Navigate } from "react-router-dom"
+import { useRoutes } from "react-router-dom"
 import { routes } from "./routes"
-import { useSigninCheck } from "reactfire"
+import {useEffect} from "react"
+import { useAuth, useSigninCheck } from "reactfire"
+import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth"
 import Loading from "./sharedComponents/Loading"
-import { LoginView } from "./pages/LoginView"
-import { createContext, useState } from "react"
-
-export const AuthContext = createContext<{
-  role: string
-  setRole: (role: string) => void
-}>({ role: "", setRole: (role) => {} })
 
 const App = () => {
-  const [role, setRole] = useState(window.localStorage.getItem("role"))
-  const [user, setUser] = useState(
-    JSON.parse(window.localStorage.getItem("user"))
-  )
+  const auth = useAuth()
   const appRoutes = useRoutes(routes)
+  const { status, data: signInResult } = useSigninCheck()
 
-  const { status, data: signedInResult } = useSigninCheck()
+  useEffect(() => {
+    if (status === 'loading') return
+    if (status === 'success' && signInResult?.signedIn) return
+    const signIn = async () => {
+      await signInWithRedirect(auth, new GoogleAuthProvider()).catch(error => console.log(error))
+    }
+    signIn()
+  }, [])
+  if (status === 'loading') return <Loading />
 
-  if (status === "loading") {
-    return <Loading />
+  const {signedIn, user } = signInResult
+
+  console.log("signIn", signedIn)
+  console.log("user", user)
+
+  if (signedIn && user) {
+    return (
+    <>{appRoutes}</>
+    )
   }
-
-  return (
-    <AuthContext.Provider value={{ role, setRole, user, setUser }}>
-      {appRoutes}
-    </AuthContext.Provider>
-  )
+  return null
 }
 
 export default App

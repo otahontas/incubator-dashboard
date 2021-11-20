@@ -3,14 +3,14 @@ import ParticipantLayout from "./layouts/ParticipantLayout"
 import ParticipantHome from "./pages/participant/Home"
 import CoachHome from "./pages/coach/Home"
 import AdminHome from "./pages/admin/Home"
-import Proxy from "./pages/Proxy"
 import CoachLayout from "./layouts/CoachLayout"
 import AdminLayout from "./layouts/AdminLayout"
+import LoginView from "./pages/LoginView"
 
 export const routes: RouteObject[] = [
   {
     path: "/",
-    element: <Proxy />,
+    element: <LoginView />,
   },
   {
     path: "/participant",

@@ -11,10 +11,16 @@ const Proxy = () => {
   const { status, data: signedInResult } = useSigninCheck()
   const navigate = useNavigate()
   const firestore = useFirestore()
+
   useEffect(() => {
     if (status === 'loading') return
+    console.log("status in proxy", status)
+    console.log("data in proxy", signedInResult)
     const fetchData = async () => {
+      console.log("jees stuff starting to do thingys")
+      console.log(signedInResult.signedIn)
       if (signedInResult.signedIn && role === "coach") {
+        console.log("wtf is happening???")
         let userDoc = await getDoc(
           doc(firestore, "users", signedInResult.user.uid)
         )
@@ -32,6 +38,7 @@ const Proxy = () => {
         window.localStorage.setItem("user", JSON.stringify(userDoc.data()))
         navigate("/coach")
       } else if (signedInResult.signedIn && role === "participant") {
+        console.log("again wtf is happening???")
         let userDoc = await getDoc(
           doc(firestore, "users", signedInResult.user.uid)
         )
