@@ -7,7 +7,7 @@ const ViewRedirecter: React.FC = () => {
   const { status, data } = useAuthenticatedUser()
   const navigate = useNavigate()
   useEffect(() => {
-    if (status === 'loading') return
+    if (status === 'loading' || !data?.role) return
     if (data.role === 'participant') {
       navigate('/participant')
     }
@@ -17,7 +17,7 @@ const ViewRedirecter: React.FC = () => {
     if (data.role === 'admin') {
       navigate('/admin')
     }
-  }, [status])
+  }, [status, data])
 
   // show loader while resolving redirecter
   return <Loading />

@@ -11,8 +11,6 @@ export default () => {
     { idField: "id" }
   )
 
-  console.log(data)
-
   if (status === "loading") return <Loading />
 
   if (status === "error") {
