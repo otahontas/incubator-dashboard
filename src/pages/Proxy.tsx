@@ -12,16 +12,17 @@ const Proxy = () => {
   const navigate = useNavigate()
   const firestore = useFirestore()
   useEffect(() => {
+    if (status === 'loading') return
     const fetchData = async () => {
       if (signedInResult.signedIn && role === "coach") {
         let userDoc = await getDoc(
           doc(firestore, "users", signedInResult.user.uid)
         )
-        console.log(userDoc.data())
         if (!userDoc.data()) {
           await setDoc(doc(firestore, "users", signedInResult.user.uid), {
             role,
             teamId: "",
+            name: signedInResult.user.displayName
           })
           userDoc = await getDoc(
             doc(firestore, "users", signedInResult.user.uid)
@@ -34,7 +35,6 @@ const Proxy = () => {
         let userDoc = await getDoc(
           doc(firestore, "users", signedInResult.user.uid)
         )
-        console.log(userDoc.data())
         if (!userDoc.data()) {
           await setDoc(doc(firestore, "users", signedInResult.user.uid), {
             role,
@@ -46,7 +46,7 @@ const Proxy = () => {
         }
         setUser(userDoc.data())
         window.localStorage.setItem("user", JSON.stringify(userDoc.data()))
-        navigate("participant")
+        navigate("/participant")
       }
     }
     fetchData()
