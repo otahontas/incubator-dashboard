@@ -16,9 +16,7 @@ export default (props: TeamCardProps) => {
         <IconButton
           aria-label="Expand team info"
           icon={<BsArrowsAngleExpand />}
-          onClick={() =>
-            navigate(`/coach/${team.NO_ID_FIELD}`, { state: team })
-          }
+          onClick={() => navigate(`/coach/${team.id}`, { state: team })}
         />
       </Flex>
       <Text> {team.projectDescriptionMax50chars}</Text>

@@ -5,7 +5,7 @@ declare global {
 
   interface Team {
     // It's actually the id field
-    NO_ID_FIELD: ID
+    id: ID
     members: ID[]
     name: string
     projectDescriptionMax50chars: string
