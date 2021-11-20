@@ -5,7 +5,6 @@ admin.initializeApp()
 exports.addUserWithDefaultsToDatabase = functions.auth
   .user()
   .onCreate(async (user) => {
-    console.log("user", user)
     const firestore = admin.firestore()
     const userDataToSave = {
       id: user.uid,

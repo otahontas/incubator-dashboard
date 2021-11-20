@@ -9,6 +9,7 @@ import {
 import { collection, query } from "firebase/firestore"
 import type { DocumentData } from "firebase/firestore"
 import { useFirestoreCollectionData, useFirestore } from "reactfire"
+import Loading from "../../sharedComponents/Loading"
 interface SingleProps {
   tmpl: DocumentData
 }
@@ -20,7 +21,7 @@ const SingleRoadmap = ({ tmpl }: SingleProps) => {
   const { status, data } = useFirestoreCollectionData(roadmapQuery, {
     idField: "id",
   })
-  return status === "loading" ? null : (
+  return status === "loading" ? <Loading />: (
     <>
       <Heading 
         color={"blue.400"}
@@ -57,7 +58,7 @@ export default () => {
     idField: "id",
   })
 
-  if (status === "loading") return null
+  if (status === "loading") return <Loading />
 
   return (
       <Stack spacing={6} w="100%" alignItems="center">

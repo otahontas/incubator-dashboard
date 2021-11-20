@@ -61,11 +61,6 @@ const backgrounds = [
 ]
 
 export default () => {
-  let num = Math.floor(Math.random() * 10)
-  if (num === 1) {
-    num = 2;
-    throw new Error("RANDOM KABOOM")
-  }
   //const firestore = useFirestore()
   // const users = collection(firestore, "users")
   // const usersQuery = query(users)
