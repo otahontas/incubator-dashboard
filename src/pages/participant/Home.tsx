@@ -85,6 +85,14 @@ export default ({}) => {
     })
   }
 
+  const countValue = () => {
+    const {done, all } = stages.reduce((acc, curr) => ({
+      done: acc.done + curr.milestones.filter(m => m.done.includes(userData.id)).length,
+      all : acc.all + curr.milestones.length
+    }), {done: 0, all: 0})
+    return (done / all) * 100
+  }
+
   return (
     <>
       <Flex direction="row" alignItems="center">
@@ -99,7 +107,7 @@ export default ({}) => {
           <Progress
             colorScheme="green"
             height="20px"
-            value={60}
+            value={countValue()}
             borderRadius={8}
             width="100%"
           />
