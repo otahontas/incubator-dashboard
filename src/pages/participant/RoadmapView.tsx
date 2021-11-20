@@ -10,7 +10,6 @@ const Roadmap = () => {
   const roadmap = collection(firestore, "teams", teamId, "roadmap")
   const roadmapQuery = query(roadmap)
 
-  // ReactFire!
   const { status, data } = useFirestoreCollectionData(roadmapQuery, {
     idField: "id",
   })
