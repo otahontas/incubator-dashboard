@@ -9,7 +9,7 @@ export default (props: MilestoneCardPartProps) => {
   const { title, text } = props
 
   return (
-    <Box>
+    <Box pt="4">
       <Heading size="3xs">{title}</Heading>
       <Text fontSize="sm">{text.split(" ").splice(20).join(" ")}...</Text>
     </Box>
