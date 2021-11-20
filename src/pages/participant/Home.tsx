@@ -60,6 +60,10 @@ export default ({ }) => {
               <Text size="md"> {milestone.title} </Text>
               <Box p="6" borderWidth="1px" borderRadius="md">
                 <MilestoneCardPart title="Intro" text={milestone.intro} />
+                <MilestoneCardPart title="Learn" text={milestone.learn} />
+                <Divider />
+                <MilestoneCardPart title="Task" text={milestone.task} />
+                <Button colorScheme="orange">Mark as done</Button>
               </Box>
             </VStack>
           </Box>
