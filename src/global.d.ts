@@ -10,11 +10,6 @@ declare global {
     coachId: string
   }
 
-  interface Coach {
-    id: ID
-    role: string
-  }
-
   interface Milestone {
     id: ID
     title: string
@@ -28,8 +23,8 @@ declare global {
 
   interface Stage {
     id: ID
-    title: string
-    checkpoints: Milestone[]
+    name: string
+    milestones: Milestone[]
   }
 
   interface WeeklyUpdate {
