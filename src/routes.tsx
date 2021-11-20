@@ -7,6 +7,7 @@ import CoachLayout from "./layouts/CoachLayout"
 import TeamInfo from "./pages/coach/TeamInfo"
 import AdminLayout from "./layouts/AdminLayout"
 import ViewRedirecter from "./pages/ViewRedirecter"
+import TeamMember from "./pages/coach/TeamMember"
 
 export const routes: RouteObject[] = [
   {
@@ -32,8 +33,12 @@ export const routes: RouteObject[] = [
         element: <CoachHome />,
       },
       {
-        path: "/coach/:teamId",
+        path: "/coach/:teamId/",
         element: <TeamInfo />,
+      },
+      {
+        path: "/coach/:teamId/:memberId",
+        element: <TeamMember />,
       },
     ],
   },
