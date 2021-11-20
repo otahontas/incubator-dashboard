@@ -11,7 +11,7 @@ import {
   Stack,
   VStack,
   Progress,
-  Center
+  Center,
 } from "@chakra-ui/react"
 import { AiOutlineTeam } from "react-icons/ai"
 import { useState } from "react"
@@ -41,43 +41,66 @@ export default ({}) => {
 
   const firestore = useFirestore()
 
-  const markDone = async (milestoneId: string) => {
-    const milestone = activeStage.milestones.find(
-      (milestone) => milestone.id === milestoneId
+  const toggleDone = async (milestoneTitle: string) => {
+    const currentMilestone = activeStage.milestones.find(
+      (milestone) => milestone.title === milestoneTitle
     )
-    const milestoneWithoutShit = activeStage.milestones.filter(
-      (milestone) => milestone.id !== milestoneId
-    )
-
-    let done = []
-    if (milestone.done === undefined) {
-      done = [userData.id]
+    let newDone = currentMilestone.done ? [...currentMilestone.done] : []
+    if (newDone.includes(userData.id)) {
+      newDone.remove(userData.id)
     } else {
-      done = milestone.done.includes(userData.id)
-        ? [...milestone.done]
-        : [...milestone.done, user]
+      newDone.push(userData.id)
     }
 
-    const newMilestones = [...milestoneWithoutShit, { ...milestone, done }]
-
     await updateDoc(doc(firestore, "teams", userData.teamId), {
-      [`roadmap.${activeStage.id}.milestones`]: newMilestones,
+      roadmap: [
+        {
+          ...activeStage,
+          milestones: [
+            ...activeStage.milestones.filter(
+              (milestone) => milestone.title !== milestoneTitle
+            ),
+            {
+              ...currentMilestone,
+              done: newDone,
+            },
+          ],
+        },
+        ...stages.filter((s) => s.id !== activeStage.id),
+      ],
     })
   }
 
   return (
     <>
       <Flex direction="row" alignItems="center">
-        <div style={{ width: '100%', marginRight: 'auto', paddingLeft: '16px', paddingRight: '16px'}}>
-          <Progress colorScheme="green" height="20px" value={60} borderRadius={8} width="100%"/>
+        <div
+          style={{
+            width: "100%",
+            marginRight: "auto",
+            paddingLeft: "16px",
+            paddingRight: "16px",
+          }}
+        >
+          <Progress
+            colorScheme="green"
+            height="20px"
+            value={60}
+            borderRadius={8}
+            width="100%"
+          />
         </div>
         <Button leftIcon={<AiOutlineTeam />}>Switch to team view</Button>
       </Flex>
 
       <HStack spacing="4" margin={4}>
         {stages.map((stage) => (
-          <Button colorScheme="green" variant={currentStageId === stage.id ? "solid" : "ghost"}
-            onClick={() => setCurrentStageId(stage.id)} key={stage.id}>
+          <Button
+            colorScheme="green"
+            variant={currentStageId === stage.id ? "solid" : "ghost"}
+            onClick={() => setCurrentStageId(stage.id)}
+            key={stage.id}
+          >
             {stage.title}
           </Button>
         ))}
@@ -90,7 +113,7 @@ export default ({}) => {
       <Divider py="8" />
       <HStack overflowX="auto">
         {activeStage.milestones.map((milestone, i) => (
-          <Box key={milestone.id} p="6" minW="300px">
+          <Box key={milestone.title} p="6" minW="300px">
             <VStack>
               <Heading size="sm"> Checkpoint{i + 1} </Heading>
               <Text size="md"> {milestone.title} </Text>
@@ -100,9 +123,25 @@ export default ({}) => {
                 <Divider mb="6" />
                 <MilestoneCardPart title="Task" text={milestone.task} />
                 <Center pt="8">
-                  <Button onClick={markDone} colorScheme="orange">
-                    Mark as done
-                  </Button>
+                  {milestone?.done && milestone.done.includes(userData.id) ? (
+                    <Button
+                      onClick={() => {
+                        toggleDone(milestone.title)
+                      }}
+                      colorScheme="green"
+                    >
+                      Undone
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => {
+                        toggleDone(milestone.title)
+                      }}
+                      colorScheme="orange"
+                    >
+                      Mark as done
+                    </Button>
+                  )}
                 </Center>
               </Box>
             </VStack>
