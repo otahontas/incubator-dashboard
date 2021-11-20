@@ -13,7 +13,18 @@ import {
   VStack,
   Progress,
   Center,
+  Modal, 
+  ModalOverlay,
+  ModalHeader,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalBody, 
+  Input,
+  FormLabel
 } from "@chakra-ui/react"
+import {useDisclosure} from '@chakra-ui/hooks'
+import {Link} from 'react-router-dom'
 import { AiOutlineTeam } from "react-icons/ai"
 import { useState } from "react"
 import useTeam from "../../hooks/useTeam"
@@ -23,8 +34,10 @@ import MilestoneCardPart from "./MilestoneCardPart"
 import { useFirestore } from "reactfire"
 import { updateDoc } from "@firebase/firestore"
 import { doc } from "firebase/firestore"
+import { InputControl } from "formik-chakra-ui"
 
 export default ({}) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const { status, data } = useTeam()
   const [currentStageId, setCurrentStageId] = useState(null)
   const { status: userStatus, data: userData } = useAuthenticatedUser()
@@ -83,6 +96,7 @@ export default ({}) => {
     await updateDoc(doc(firestore, "teams", userData.teamId), {
       roadmap: newStages,
     })
+    onOpen()
   }
 
   const countValue = () => {
@@ -112,7 +126,7 @@ export default ({}) => {
             width="100%"
           />
         </div>
-        <Button leftIcon={<AiOutlineTeam />}>Switch to team view</Button>
+        <Button as={Link} to={`/participant/team`} leftIcon={<AiOutlineTeam />}>Switch to team view</Button>
       </Flex>
 
       <HStack spacing="4" margin={4}>
@@ -171,6 +185,25 @@ export default ({}) => {
         ))}
       </Flex>
       <WeeklyUpdateView />
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Thank you for updating your status!</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <form>
+              <FormLabel>Feedback to the coaches</FormLabel>
+              <Input />
+            </form>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Submit
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   )
 }
