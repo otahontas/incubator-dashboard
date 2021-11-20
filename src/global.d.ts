@@ -7,8 +7,6 @@ declare global {
     id: ID
     members: ID[]
     name: string
-    projectDescriptionMax50chars: string
-    projectDescriptionLong: string
     coachId: string
   }
 
