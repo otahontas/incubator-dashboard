@@ -71,11 +71,12 @@ const JoinTeamForm: React.FC<{user: any}> = ({user}) => {
     const onSubmit = async (values: JoinForm) => {
         const teamDoc = await getDoc(doc(firestore, 'teams', values.teamCode))
         if (teamDoc.exists()){
+            console.log(teamDoc)
             await updateDoc(doc(firestore, 'teams', teamDoc.id), {
                 members: teamDoc.data().members.concat(user.id)
             })
             await updateDoc(doc(firestore, 'users', user.id), {
-                teamId: teamDoc.data().id
+                teamId: teamDoc.id
             })
         }
     }
