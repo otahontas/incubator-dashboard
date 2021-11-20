@@ -6,12 +6,12 @@ import AdminHome from "./pages/admin/Home"
 import CoachLayout from "./layouts/CoachLayout"
 import TeamInfo from "./pages/coach/TeamInfo"
 import AdminLayout from "./layouts/AdminLayout"
-import LoginView from "./pages/LoginView"
+import ViewRedirecter from "./pages/ViewRedirecter"
 
 export const routes: RouteObject[] = [
   {
     path: "/",
-    element: <LoginView />,
+    element: <ViewRedirecter />,
   },
   {
     path: "/participant",
