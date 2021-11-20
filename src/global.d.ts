@@ -10,6 +10,7 @@ declare global {
     name: string
     projectDescriptionMax50chars: string
     projectDescriptionLong: string
+    coachId: string
   }
 
   interface Coach {
