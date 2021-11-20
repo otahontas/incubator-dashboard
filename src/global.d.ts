@@ -10,6 +10,11 @@ declare global {
     coachId: string
   }
 
+  interface User {
+    id: ID
+    role: string
+  }
+
   interface Milestone {
     id: ID
     title: string
