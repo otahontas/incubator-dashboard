@@ -24,6 +24,8 @@ import {
 } from "formik-chakra-ui"
 import { updateDoc, doc, addDoc, collection, getDoc } from "firebase/firestore"
 import { useFirestore } from "reactfire"
+import useRoadmapTemplates from "../../hooks/useRoadmapTemplates"
+import useNewestRoadmapTemplate from "../../hooks/useNewestRoadmaptemplate"
 
 interface JoinForm {
   teamCode: string
@@ -33,14 +35,17 @@ interface CreateForm {
   name: string
 }
 const CreateTeamForm: React.FC<{ user: any }> = ({ user }) => {
+  const { status, data } = useNewestRoadmapTemplate()
   const firestore = useFirestore()
   const createInitialValues = {
     name: "",
   }
+  if (status === "loading") return null
   const onCreateSubmit = async (values: CreateForm) => {
     const teamDoc = await addDoc(collection(firestore, "teams"), {
       members: [user.id],
       name: values.name,
+      roadmap: data
     })
     await updateDoc(doc(firestore, "users", user.id), {
       teamId: teamDoc.id,
