@@ -1,53 +1,39 @@
-import { Box, Heading, HStack, StackDivider, Text, VStack, Button, Center } from "@chakra-ui/react"
+import { Box, Heading, HStack, StackDivider, Text, VStack, Button, Center, SimpleGrid, Divider, Progress } from "@chakra-ui/react"
 import {Avatar, AvatarGroup} from '@chakra-ui/avatar'
 // import { query, collection } from "firebase/firestore"
 import { useLocation } from "react-router-dom"
-import {useEffect, useState} from 'react'
+import faker from "faker"
 // import { useFirestore, useFirestoreCollectionData, useFireStoreData } from "reactfire"
 
 export default () => {
   
   const { state } = useLocation()
   const team = state as Team
-  const [stage, setStage] = useState(team.roadmap[0])
 
-     const handleStageSelect = (index: number) => {
-       setStage(team.roadmap[index])
-     }
   return (
     <Box>
-      <HStack>
+      <HStack mb={5}>
         <Avatar />
         <Heading size="md"> {team.name}</Heading>
       </HStack>
-      <HStack>
-        {team.roadmap.map((roadmap, index) => (
-          <Button onClick={() => handleStageSelect(index)} key={roadmap.id}>{roadmap.title}</Button>
-        ))}
-      </HStack>
-      <Center>
-      <HStack overflowX='auto'>
-        {stage.milestones.map((milestone, index) => (
-          <Box key={index} borderWidth="1px" borderRadius="lg">
-            <VStack divider={<StackDivider borderBlock="gray.200" />}>
-                {Object.keys(milestone).map(key => (
-                  <Box>
-                    <Heading size='md'>{key}</Heading>
-                    <Text>{milestone[key]}</Text>
-                  </Box>
-                ))}
-            </VStack>
+      <Text>The team is currently in stage 1</Text>
+      <Divider mt={5} />
+      <SimpleGrid mt={6} columns={3}>
+        {team.members.map((member) => (
+          <Box key={member} borderWidth='2px' p="6" minW="300px">
+            <HStack>
+                  <Avatar />
+                  <Heading size='md'>{faker.name.findName()}</Heading>
+            </HStack>
+            <Divider mt={5} />
+            {team.roadmap[0].milestones[0].done &&<HStack mt={5}>
+              <Progress value={(team.roadmap[0].milestones.filter((milestone) =>milestone?.done.find(id => 'mCdOlTwu98fP7ZnzVEZxJ8qj9f82' === id)).length/team.roadmap[0].milestones.length)*100} width='50%' />
+              <Text>{team.roadmap[0].milestones.filter((milestone) =>milestone.done?.find(id => member === id)).length}/{team.roadmap[0].milestones.length} checkpoints done</Text>
+            </HStack>
+            }
           </Box>
         ))}
-      </HStack>
-      </Center>
-     
-      <Heading pt="12" pb="6" size="md">
-        Weekly updates
-      </Heading>
-      <Box p="6" borderWidth="1px" borderRadius="lg">
-        hi
-      </Box>
+      </SimpleGrid>
     </Box>
   )
 }

@@ -16,8 +16,9 @@ import {
   ResetButton,
   RadioGroupControl,
 } from "formik-chakra-ui"
-import { addDoc, collection, serverTimestamp } from "firebase/firestore"
+import { updateDoc, doc, serverTimestamp, addDoc, collection } from "firebase/firestore"
 import { useFirestore } from "reactfire"
+import useAuthenticatedUser from "../../hooks/useAuthenticatedUser"
 
 interface WeeklyUpdateForm {
   biggestImprovement: string
@@ -105,9 +106,9 @@ const WeeklyUpdateForm = ({ onSubmit }: FormProps) => {
 export const WeeklyUpdateView = () => {
   const toast = useToast()
   const firestore = useFirestore()
+  const { status, data } = useAuthenticatedUser() as any
   const onSubmit = async (values: WeeklyUpdateForm) => {
-    const teamId = "0ptnrAiWyTyv5eV24a1e"
-    await addDoc(collection(firestore, "teams", teamId, "weeklyUpdates"), {
+    await addDoc(collection(firestore, "users", data.id, "weeklyUpdates"), {
       ...values,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
