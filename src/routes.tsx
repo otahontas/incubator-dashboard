@@ -2,13 +2,13 @@ import { RouteObject } from "react-router-dom"
 import ParticipantLayout from "./layouts/ParticipantLayout"
 import ParticipantHome from "./pages/participant/Home"
 import CoachHome from "./pages/coach/Home"
-import { LoginView } from "./pages/LoginView"
+import Proxy from "./pages/Proxy"
 import CoachLayout from "./layouts/CoachLayout"
 
 export const routes: RouteObject[] = [
   {
     path: "/",
-    element: <LoginView />,
+    element: <Proxy />,
   },
   {
     path: "/participant",
