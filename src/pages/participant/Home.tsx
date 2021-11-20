@@ -19,6 +19,9 @@ import useTeam from "../../hooks/useTeam"
 import Loading from "../../sharedComponents/Loading"
 import useAuthenticatedUser from "../../hooks/useAuthenticatedUser"
 import MilestoneCardPart from "./MilestoneCardPart"
+import { useFirestore } from "reactfire"
+import { updateDoc } from "@firebase/firestore"
+import { doc } from "firebase/firestore"
 
 export default ({}) => {
   const { status, data } = useTeam()
@@ -35,6 +38,32 @@ export default ({}) => {
   }
   const { roadmap: stages } = data
   const activeStage = stages.find((stage) => stage.id === currentStageId)
+
+  const firestore = useFirestore()
+
+  const markDone = async (milestoneId: string) => {
+    const milestone = activeStage.milestones.find(
+      (milestone) => milestone.id === milestoneId
+    )
+    const milestoneWithoutShit = activeStage.milestones.filter(
+      (milestone) => milestone.id !== milestoneId
+    )
+
+    let done = []
+    if (milestone.done === undefined) {
+      done = [userData.id]
+    } else {
+      done = milestone.done.includes(userData.id)
+        ? [...milestone.done]
+        : [...milestone.done, user]
+    }
+
+    const newMilestones = [...milestoneWithoutShit, { ...milestone, done }]
+
+    await updateDoc(doc(firestore, "teams", userData.teamId), {
+      [`roadmap.${activeStage.id}.milestones`]: newMilestones,
+    })
+  }
 
   return (
     <>
@@ -64,7 +93,9 @@ export default ({}) => {
                 <Divider mb="6" />
                 <MilestoneCardPart title="Task" text={milestone.task} />
                 <Center pt="8">
-                  <Button colorScheme="orange">Mark as done</Button>
+                  <Button onClick={markDone} colorScheme="orange">
+                    Mark as done
+                  </Button>
                 </Center>
               </Box>
             </VStack>
