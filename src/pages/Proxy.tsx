@@ -12,6 +12,7 @@ const Proxy = () => {
   const navigate = useNavigate()
   const firestore = useFirestore()
   useEffect(() => {
+    if (status === 'loading') return
     const fetchData = async () => {
       if (signedInResult.signedIn && role === "coach") {
         let userDoc = await getDoc(
@@ -21,6 +22,7 @@ const Proxy = () => {
           await setDoc(doc(firestore, "users", signedInResult.user.uid), {
             role,
             teamId: "",
+            name: signedInResult.user.displayName
           })
           userDoc = await getDoc(
             doc(firestore, "users", signedInResult.user.uid)

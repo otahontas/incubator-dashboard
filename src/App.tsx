@@ -23,11 +23,6 @@ const App = () => {
     return <Loading />
   }
 
-  console.log(signedInResult, role)
-  // if (!signedInResult.signedIn) {
-  //   return <LoginView />
-  // }
-
   return (
     <AuthContext.Provider value={{ role, setRole, user, setUser }}>
       {appRoutes}

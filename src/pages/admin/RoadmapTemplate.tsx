@@ -80,6 +80,7 @@ export default () => {
       </Text>
       {data.map((tmpl, index) => (
         <Flex
+          key={tmpl.id}
           boxShadow={"lg"}
           maxW={"640px"}
           direction={{ base: "column-reverse", md: "row" }}
@@ -110,7 +111,7 @@ export default () => {
             textAlign={"left"}
             justifyContent={"space-between"}
           >
-            <SingleRoadmap key={tmpl.id} tmpl={tmpl} />
+            <SingleRoadmap tmpl={tmpl} />
           </Flex>
         </Flex>
   ))}

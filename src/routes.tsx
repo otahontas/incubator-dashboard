@@ -41,5 +41,9 @@ export const routes: RouteObject[] = [
         element: <AdminHome />,
       },
     ],
+  },
+  {
+    path: '*',
+    element: <p>Not found!</p>
   }
 ]
