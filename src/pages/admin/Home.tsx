@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react"
 import CoachManagement from "./CoachManagement"
 import Roadmaps from "./RoadmapTemplate"
+import UserManagement from "./UserManagement"
 
 export default () => {
   return (
@@ -31,7 +32,7 @@ export default () => {
                 <CoachManagement />
               </TabPanel>
               <TabPanel>
-                <Roadmaps />
+                <UserManagement />
               </TabPanel>
             </TabPanels>
           </Tabs>
