@@ -148,7 +148,7 @@ const CoachSelector = ({ team, coaches }: CoachSelectorProps) => {
       {() => (
         <SelectControl
           name="coach"
-            selectProps={{ placeholder: team.coachId ? coaches.find(c => c.id === team.coachId).name : "Select coach" }}
+            selectProps={{ placeholder: team.coachId ? coaches.find(c => c.id === team.coachId)?.name : "Select coach" }}
         >
         <SubmitListener />
             {coaches.map(coach => <option key={coach.id} value={coach.id}>{coach.name}</option>)}
