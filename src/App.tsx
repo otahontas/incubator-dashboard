@@ -3,8 +3,8 @@ import { routes } from "./routes"
 import { useAuth, useSigninCheck } from "reactfire"
 import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth"
 import Loading from "./sharedComponents/Loading"
-import { Button } from "@chakra-ui/react"
-
+import { Button, Center, Box, Heading, Text } from "@chakra-ui/react"
+import ErrorBoundary from "./sharedComponents/ErrorBoundary"
 
 // plz fix this, it's ugly
 const LoginButton = () => {
@@ -20,7 +20,11 @@ const App = () => {
   const { status, data: signInResult } = useSigninCheck()
   if (status === "loading") return <Loading />
   if (!signInResult.signedIn) return <LoginButton />
-  return <>{appRoutes}</>
+  return (
+    <ErrorBoundary>
+      {appRoutes}
+    </ErrorBoundary>
+  )
 }
 
 export default App

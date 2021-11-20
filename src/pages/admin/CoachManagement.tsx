@@ -1,4 +1,4 @@
-import { Heading, Stack } from "@chakra-ui/react"
+import { Button, Heading, Stack } from "@chakra-ui/react"
 import {
   Center,
   Avatar,
@@ -15,6 +15,7 @@ import {
 import { collection, query } from "firebase/firestore"
 import type { DocumentData } from "firebase/firestore"
 import { useFirestoreCollectionData, useFirestore } from "reactfire"
+import React from "react"
 interface SingleProps {
   tmpl: DocumentData
 }
@@ -60,14 +61,18 @@ const backgrounds = [
 ]
 
 export default () => {
-  const firestore = useFirestore()
-  const users = collection(firestore, "users")
-  const usersQuery = query(users)
-  const { status, data: userData } = useFirestoreCollectionData(usersQuery, {
-    idField: "id",
-  })
-  if (status === "loading") return null
-  const coaches = userData.filter((d) => d.role === "coach")
-  console.log(coaches)
+  let num = Math.floor(Math.random() * 10)
+  if (num === 1) {
+    num = 2;
+    throw new Error("RANDOM KABOOM")
+  }
+  //const firestore = useFirestore()
+  // const users = collection(firestore, "users")
+  // const usersQuery = query(users)
+  // const { status, data: userData } = useFirestoreCollectionData(usersQuery, {
+  //   idField: "id",
+  // })
+  // if (status === "loading") return null
+  // const coaches = userData.filter((d) => d.role === "coach")
   return null
 }
