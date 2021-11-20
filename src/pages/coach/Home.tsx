@@ -7,7 +7,8 @@ import Loading from "../../sharedComponents/Loading"
 export default () => {
   const firestore = useFirestore()
   const { status, data } = useFirestoreCollectionData(
-    query(collection(firestore, "teams"))
+    query(collection(firestore, "teams")),
+    { idField: "id" }
   )
 
   console.log(data)
@@ -25,7 +26,7 @@ export default () => {
       <Heading>Teams</Heading>
       <SimpleGrid py="4" spacing="4" columns={[1, 1, 2, 3]}>
         {[...teams].map((team) => (
-          <TeamCard key={team.NO_ID_FIELD} team={team} />
+          <TeamCard key={team.id} team={team} />
         ))}
       </SimpleGrid>
     </>

@@ -10,7 +10,7 @@ export default () => {
   const firestore = useFirestore()
   const { status, data } = useFirestoreCollectionData(
     query(
-      collection(firestore, "teams", team.NO_ID_FIELD, "weeklyUpdates"),
+      collection(firestore, "teams", team.id, "weeklyUpdates"),
       orderBy("createdAt", "desc")
     )
   )
