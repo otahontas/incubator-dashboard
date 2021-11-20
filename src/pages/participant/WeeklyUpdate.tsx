@@ -14,7 +14,7 @@ interface FormProps {
   onSubmit: (values: Form) => Promise<void>
 }
 
-const FeedbackForm = ({ onSubmit }: FormProps) => {
+const WeeklyUpdateForm = ({ onSubmit }: FormProps) => {
   const initialValues = {
     biggestObstacle: "",
     howDidThisWeekGo: "",
@@ -57,12 +57,12 @@ const FeedbackForm = ({ onSubmit }: FormProps) => {
   )
 }
 
-export const FeedbackView = () => {
+export const WeeklyUpdateView = () => {
   const toast = useToast()
   const firestore = useFirestore()
   const onSubmit = async (values: Form) => {
     const teamId = "0ptnrAiWyTyv5eV24a1e"
-    await addDoc(collection(firestore, "teams", teamId, "feedbacks"), {
+    await addDoc(collection(firestore, "teams", teamId, "weeklyUpdates"), {
       ...values,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
@@ -71,13 +71,13 @@ export const FeedbackView = () => {
       title: "Feedback successfully submitted!",
       status: "success",
       isClosable: true,
-      duration: 5000
+      duration: 5000,
     })
   }
   return (
     <>
-        <Heading>Send weekly feedback</Heading>
-        <FeedbackForm onSubmit={onSubmit} />
+      <Heading>Send weekly feedback</Heading>
+      <WeeklyUpdateForm onSubmit={onSubmit} />
     </>
   )
 }

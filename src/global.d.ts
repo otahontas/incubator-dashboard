@@ -1,20 +1,24 @@
 import { DocumentData } from "@firebase/firestore"
 
 declare global {
+  type ID = string
+
   interface Team {
-    uid: string
+    // It's actually the id field
+    NO_ID_FIELD: ID
+    members: ID[]
     name: string
     projectDescriptionMax50chars: string
     projectDescriptionLong: string
   }
 
   interface Coach {
-    id: string
+    uid: ID
     role: string
   }
 
   interface Milestone {
-    id: string
+    uid: ID
     title: string
   }
 }

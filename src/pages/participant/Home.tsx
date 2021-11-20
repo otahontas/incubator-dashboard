@@ -1,11 +1,11 @@
-import { FeedbackView } from "./FeedbackView"
+import { WeeklyUpdateView } from "./WeeklyUpdate"
 import RoadmapView from "./RoadmapView"
 
 export default () => {
   return (
     <>
       <RoadmapView />
-      <FeedbackView />
+      <WeeklyUpdateView />
     </>
   )
 }

@@ -4,10 +4,8 @@ import OverallLayout from "./OverallLayout"
 
 export default () => {
   return (
-    <OverallLayout>
-      <Box h="100vh" mx="32">
-        <Outlet />
-      </Box>
-    </OverallLayout>
+    <Box pt="8" h="100vh" mx="32">
+      <Outlet />
+    </Box>
   )
 }

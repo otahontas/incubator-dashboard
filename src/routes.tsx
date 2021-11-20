@@ -4,6 +4,7 @@ import ParticipantHome from "./pages/participant/Home"
 import CoachHome from "./pages/coach/Home"
 import AdminHome from "./pages/admin/Home"
 import CoachLayout from "./layouts/CoachLayout"
+import TeamInfo from "./pages/coach/TeamInfo"
 import AdminLayout from "./layouts/AdminLayout"
 import LoginView from "./pages/LoginView"
 
@@ -30,11 +31,15 @@ export const routes: RouteObject[] = [
         path: "/coach/",
         element: <CoachHome />,
       },
+      {
+        path: "/coach/:teamId",
+        element: <TeamInfo />,
+      },
     ],
   },
   {
     path: "/admin",
-    element: <AdminLayout/>,
+    element: <AdminLayout />,
     children: [
       {
         path: "/admin/",
@@ -43,7 +48,7 @@ export const routes: RouteObject[] = [
     ],
   },
   {
-    path: '*',
-    element: <p>Not found!</p>
-  }
+    path: "*",
+    element: <p>Not found!</p>,
+  },
 ]
