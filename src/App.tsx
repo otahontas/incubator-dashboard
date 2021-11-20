@@ -5,7 +5,6 @@ import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth"
 import Loading from "./sharedComponents/Loading"
 import { Button } from "@chakra-ui/react"
 import ErrorBoundary from "./sharedComponents/ErrorBoundary"
-import { BrowserRouter } from "react-router-dom"
 
 // plz fix this, it's ugly
 const LoginButton = () => {
@@ -23,9 +22,7 @@ const App = () => {
   if (!signInResult.signedIn) return <LoginButton />
   return (
     <ErrorBoundary>
-      <BrowserRouter>
         {appRoutes}
-      </BrowserRouter>
     </ErrorBoundary>
   )
 }
