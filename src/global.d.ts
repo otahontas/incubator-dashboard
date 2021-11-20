@@ -6,6 +6,7 @@ declare global {
   interface Team {
     id: ID
     members: ID[]
+    roadmap: Stage[]
     name: string
     coachId: string
   }
@@ -28,7 +29,7 @@ declare global {
 
   interface Stage {
     id: ID
-    name: string
+    title: string
     milestones: Milestone[]
   }
 
