@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import { WeeklyUpdateView } from "./WeeklyUpdate"
+import _ from "lodash"
 import {
   Box,
   Button,
@@ -42,32 +43,45 @@ export default ({}) => {
   const firestore = useFirestore()
 
   const toggleDone = async (milestoneTitle: string) => {
-    const currentMilestone = activeStage.milestones.find(
-      (milestone) => milestone.title === milestoneTitle
+    let currentStagesById = stages.reduce(
+      (acc, curr, i) => ({ ...acc, [curr.id]: { ...curr, index: i } }),
+      {}
     )
-    let newDone = currentMilestone.done ? [...currentMilestone.done] : []
-    if (newDone.includes(userData.id)) {
-      newDone.remove(userData.id)
+
+    let currentMilestonesByTitle = currentStagesById[
+      activeStage.id
+    ].milestones.reduce(
+      (acc, curr, i) => ({ ...acc, [curr.title]: { ...curr, index: i } }),
+      {}
+    )
+
+    if (!currentMilestonesByTitle[milestoneTitle].done) {
+      currentMilestonesByTitle[milestoneTitle].done = []
+    }
+    if (currentMilestonesByTitle[milestoneTitle].done.includes(userData.id)) {
+      currentMilestonesByTitle[milestoneTitle].done = [
+        ...currentMilestonesByTitle[milestoneTitle].done.filter(
+          (u) => u !== userData.id
+        ),
+      ]
     } else {
-      newDone.push(userData.id)
+      currentMilestonesByTitle[milestoneTitle].done.push(userData.id)
     }
 
+    const newMilestones = _.chain(Object.values(currentMilestonesByTitle))
+      .sortBy("index")
+      .map((o) => _.omit(o, "index"))
+      .value()
+
+    currentStagesById[activeStage.id].milestones = newMilestones
+
+    const newStages = _.chain(Object.values(currentStagesById))
+      .sortBy("index")
+      .map((o) => _.omit(o, "index"))
+      .value()
+
     await updateDoc(doc(firestore, "teams", userData.teamId), {
-      roadmap: [
-        {
-          ...activeStage,
-          milestones: [
-            ...activeStage.milestones.filter(
-              (milestone) => milestone.title !== milestoneTitle
-            ),
-            {
-              ...currentMilestone,
-              done: newDone,
-            },
-          ],
-        },
-        ...stages.filter((s) => s.id !== activeStage.id),
-      ],
+      roadmap: newStages,
     })
   }
 
