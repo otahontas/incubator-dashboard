@@ -17,23 +17,21 @@ declare global {
     role: string
   }
 
-  interface TaskCheckpoint {
-    id: ID
-    name: string
-    done: boolean
-  }
-  interface Task {
-    description: string
-    taskCheckpoints: TaskCheckpoint[]
-  }
-  interface Checkpoint {
+  interface Milestone {
     id: ID
     title: string
     intro: string
     learn: string
     learnMoreAaltoCourses: string
     learnMoreOther: string
-    task: Task
+    task: string
+    done: boolean
+  }
+
+  interface Stage {
+    id: ID
+    title: string
+    checkpoints: Milestone[]
   }
 
   interface WeeklyUpdate {

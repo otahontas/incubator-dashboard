@@ -76,7 +76,7 @@ const WeeklyUpdateForm = ({ onSubmit }: FormProps) => {
           />
           <RadioGroupControl
             name="morale"
-            label="How is your morale? How excited are you to work on the problem?"
+            label="How is your morale? How excited are you to keep going?"
           >
             <VStack w="100%">
               <Flex w="70%" justify="space-between">
@@ -84,7 +84,7 @@ const WeeklyUpdateForm = ({ onSubmit }: FormProps) => {
                 <Text>Life is good</Text>
               </Flex>
               <Flex w="70%" justify="space-between">
-                <Radio value="1">1 I want to stop</Radio>
+                <Radio value="1">1</Radio>
                 <Radio value="2">2</Radio>
                 <Radio value="3">3</Radio>
                 <Radio value="4">4</Radio>
