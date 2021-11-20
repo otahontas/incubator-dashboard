@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { WeeklyUpdateView } from "./WeeklyUpdate"
 import RoadmapView from "./RoadmapView"
 import {
@@ -13,38 +14,25 @@ import {
 } from "@chakra-ui/react"
 import { AiOutlineTeam } from "react-icons/ai"
 import { useState } from "react"
+import useTeam from "../../hooks/useTeam"
+import Loading from "../../sharedComponents/Loading"
+import useAuthenticatedUser from "../../hooks/useAuthenticatedUser"
 
-export default ({ user }) => {
-  const milestone: Milestone = {
-    id: "1",
-    title: "Entreprenerial capabilities",
-    intro:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatem vero voluptatum corrupti voluptas nostrum placeat optio blanditiis. Perspiciatis eos soluta maxime? Culpa similique, reiciendis et quidem eos quibusdam pariatur rem.",
-    learn:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatem vero voluptatum corrupti voluptas nostrum placeat optio blanditiis. Perspiciatis eos soluta maxime? Culpa similique, reiciendis et quidem eos quibusdam pariatur rem.",
-    learnMoreAaltoCourses:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatem vero voluptatum corrupti voluptas nostrum placeat optio blanditiis. Perspiciatis eos soluta maxime? Culpa similique, reiciendis et quidem eos quibusdam pariatur rem.",
-    learnMoreOther:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatem vero voluptatum corrupti voluptas nostrum placeat optio blanditiis. Perspiciatis eos soluta maxime? Culpa similique, reiciendis et quidem eos quibusdam pariatur rem.",
-    task: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatem vero voluptatum corrupti voluptas nostrum placeat optio blanditiis. Perspiciatis eos soluta maxime? Culpa similique, reiciendis et quidem eos quibusdam pariatur rem.",
-    done: false,
+export default ({ }) => {
+  const { status, data} = useTeam()
+  const [currentStageId, setCurrentStageId] = useState(null)
+  const { status: userStatus, data: userData } = useAuthenticatedUser()
+
+  useEffect(() => {
+    if (!data) return
+    setCurrentStageId(data.roadmap[0].id)
+  }, [data])
+
+  if (!currentStageId || status === "loading" || userStatus === "loading") {
+    return <Loading />
   }
-
-  const stage1: Stage = {
-    id: "lol",
-    name: "Stage0",
-    milestones: [milestone, milestone, milestone, milestone],
-  }
-
-  const stage2: Stage = {
-    id: "lol2",
-    name: "Stage1",
-    milestones: [milestone],
-  }
-
-  const stages: Stage[] = [stage1, stage2]
-
-  const [stage, setStage] = useState(stages[0])
+  const { roadmap: stages } = data
+  const activeStage = stages.find(stage => stage.id === currentStageId)
 
   return (
     <>
@@ -54,28 +42,18 @@ export default ({ user }) => {
 
       <HStack spacing="4">
         {stages.map((stage) => (
-          <Button onClick={() => setStage(stage)} key={stage.id}>
-            {stage.name}{" "}
+          <Button onClick={() => setCurrentStageId(stage.id)}key={stage.id}>
+            {stage.title}{" "}
           </Button>
         ))}
       </HStack>
 
-      <Text>Active stage {stage.name}</Text>
+      <Text>Active stage {activeStage.name}</Text>
       <Divider py="8" />
-      <HStack overflowX="auto">
-        {stage.milestones.map((milestone) => (
-          <Box key={milestone.id} p="6" borderWidth="1px" borderRadius="lg">
-            <Center>
-              <Heading size="md"> {milestone.title} </Heading>
-            </Center>
-          </Box>
-        ))}
-      </HStack>
-
       <Heading as="h6" size="xs">
-        Team ID: {user.teamId}. Send this to your friends!
+        Team ID: {userData.teamId}. Send this to your friends!
       </Heading>
-      <RoadmapView />
+      <RoadmapView milestones={activeStage.milestones} />
       <WeeklyUpdateView />
     </>
   )

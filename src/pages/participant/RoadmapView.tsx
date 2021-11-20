@@ -3,22 +3,11 @@ import { useFirestoreCollectionData, useFirestore } from "reactfire"
 import { collection, query } from "firebase/firestore"
 import { Divider } from "@chakra-ui/react"
 import { Chrono } from "react-chrono"
+import useAuthenticatedUser from "../../hooks/useAuthenticatedUser"
+import Loading from "../../sharedComponents/Loading"
 
-const Roadmap = () => {
-  const teamId = "0ptnrAiWyTyv5eV24a1e"
-  const firestore = useFirestore()
-  const roadmap = collection(firestore, "teams", teamId, "roadmap")
-  const roadmapQuery = query(roadmap)
-
-  const { status, data } = useFirestoreCollectionData(roadmapQuery, {
-    idField: "id",
-  })
-
-  if (status === "loading") {
-    return <span>loading...</span>
-  }
-
-  const items = data.map((milestone) => ({
+const Roadmap = ({milestones}) => {
+  const items = milestones.map((milestone) => ({
     title: "smth",
     cardTitle: milestone.title,
   }))
