@@ -66,7 +66,7 @@ export default () => {
   if (status === "loading") return null
 
   return (
-    <>
+      <Stack spacing={6} w="100%">
       <Text
         textTransform={"uppercase"}
         color={"blue.400"}
@@ -118,7 +118,7 @@ export default () => {
             <SingleRoadmap key={tmpl.id} tmpl={tmpl} />
           </Flex>
         </Flex>
-      ))}
-    </>
+  ))}
+  </Stack>
   )
 }

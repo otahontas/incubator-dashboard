@@ -1,11 +1,6 @@
 import { Center, Heading, Spinner, VStack } from "@chakra-ui/react"
 
-export interface LoadingProps {
-  children: React.ReactNode
-}
-
-export default (props: LoadingProps) => {
-  const { children } = props
+export default () => {
   return (
     <Center h="100vh">
       <VStack>
@@ -16,7 +11,7 @@ export default (props: LoadingProps) => {
           color="blue.500"
           size="xl"
         />
-        <Heading>{children}</Heading>
+        <Heading>Loading...</Heading>
       </VStack>
     </Center>
   )
