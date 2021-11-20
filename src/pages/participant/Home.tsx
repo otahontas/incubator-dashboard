@@ -63,7 +63,7 @@ export default ({ user }) => {
       </HStack>
 
       <Text>Active stage {stage.name}</Text>
-      <Divider py="8" />
+      <Divider my="8" />
       <HStack overflowX="auto">
         {stage.milestones.map((milestone, i) => (
           <Box key={milestone.id} p="6" minW="300px">
@@ -73,9 +73,11 @@ export default ({ user }) => {
               <Box p="6" borderWidth="1px" borderRadius="md">
                 <MilestoneCardPart title="Intro" text={milestone.intro} />
                 <MilestoneCardPart title="Learn" text={milestone.learn} />
-                <Divider />
+                <Divider mb="6" />
                 <MilestoneCardPart title="Task" text={milestone.task} />
-                <Button colorScheme="orange">Mark as done</Button>
+                <Center pt="8">
+                  <Button colorScheme="orange">Mark as done</Button>
+                </Center>
               </Box>
             </VStack>
           </Box>
