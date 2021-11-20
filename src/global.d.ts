@@ -4,7 +4,6 @@ declare global {
   type ID = string
 
   interface Team {
-    // It's actually the id field
     id: ID
     members: ID[]
     name: string
@@ -21,6 +20,13 @@ declare global {
   interface Milestone {
     uid: ID
     title: string
+  }
+
+  interface WeeklyUpdate {
+    biggestImprovement: string
+    biggestObstacle: string
+    learned: string
+    morale: number
   }
 }
 

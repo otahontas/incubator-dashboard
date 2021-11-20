@@ -1,28 +1,48 @@
 import { Formik } from "formik"
-import { Box, ButtonGroup, Heading, useToast } from "@chakra-ui/react"
+import {
+  Box,
+  ButtonGroup,
+  Heading,
+  Flex,
+  Text,
+  VStack,
+  Radio,
+  useToast,
+} from "@chakra-ui/react"
 import * as Yup from "yup"
-import { TextareaControl, SubmitButton, ResetButton } from "formik-chakra-ui"
+import {
+  TextareaControl,
+  SubmitButton,
+  ResetButton,
+  RadioGroupControl,
+} from "formik-chakra-ui"
 import { addDoc, collection, serverTimestamp } from "firebase/firestore"
 import { useFirestore } from "reactfire"
 
-interface Form {
+interface WeeklyUpdateForm {
+  biggestImprovement: string
   biggestObstacle: string
-  howDidThisWeekGo: string
+  learned: string
+  morale: number | null
 }
 
 interface FormProps {
-  onSubmit: (values: Form) => Promise<void>
+  onSubmit: (values: WeeklyUpdateForm) => Promise<void>
 }
 
 const WeeklyUpdateForm = ({ onSubmit }: FormProps) => {
   const initialValues = {
+    biggestImprovement: "",
     biggestObstacle: "",
-    howDidThisWeekGo: "",
+    learned: "",
+    morale: null,
   }
 
   const validationSchema = Yup.object({
+    biggestImprovement: Yup.string().required(),
     biggestObstacle: Yup.string().required(),
-    howDidThisWeekGo: Yup.string().required(),
+    learned: Yup.string().required(),
+    morale: Yup.number().required(),
   })
 
   return (
@@ -42,11 +62,36 @@ const WeeklyUpdateForm = ({ onSubmit }: FormProps) => {
           as="form"
           onSubmit={handleSubmit as any}
         >
-          <TextareaControl name="biggestObstacle" label="Biggest obstacles?" />
           <TextareaControl
-            name="howDidThisWeekGo"
-            label="How did this week go overall?"
+            name="biggestImprovement"
+            label="What is the biggest improvement you have done this week?"
           />
+          <TextareaControl
+            name="biggestObstacle"
+            label="What is the biggest obstacle you faced this week?"
+          />
+          <TextareaControl
+            name="learned"
+            label="What have you learned this week?"
+          />
+          <RadioGroupControl
+            name="morale"
+            label="How is your morale? How excited are you to work on the problem?"
+          >
+            <VStack w="100%">
+              <Flex w="70%" justify="space-between">
+                <Text>I want to stop</Text>
+                <Text>Life is good</Text>
+              </Flex>
+              <Flex w="70%" justify="space-between">
+                <Radio value="1">1 I want to stop</Radio>
+                <Radio value="2">2</Radio>
+                <Radio value="3">3</Radio>
+                <Radio value="4">4</Radio>
+                <Radio value="5">5</Radio>
+              </Flex>
+            </VStack>
+          </RadioGroupControl>
           <ButtonGroup style={{ marginTop: "8px" }}>
             <SubmitButton isLoading={isSubmitting}>Submit</SubmitButton>
             <ResetButton>Reset</ResetButton>
@@ -60,7 +105,7 @@ const WeeklyUpdateForm = ({ onSubmit }: FormProps) => {
 export const WeeklyUpdateView = () => {
   const toast = useToast()
   const firestore = useFirestore()
-  const onSubmit = async (values: Form) => {
+  const onSubmit = async (values: WeeklyUpdateForm) => {
     const teamId = "0ptnrAiWyTyv5eV24a1e"
     await addDoc(collection(firestore, "teams", teamId, "weeklyUpdates"), {
       ...values,
@@ -68,7 +113,7 @@ export const WeeklyUpdateView = () => {
       updatedAt: serverTimestamp(),
     })
     toast({
-      title: "Feedback successfully submitted!",
+      title: "Weekly update successfully submitted!",
       status: "success",
       isClosable: true,
       duration: 5000,
