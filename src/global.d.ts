@@ -24,7 +24,7 @@ declare global {
     learnMoreAaltoCourses: string
     learnMoreOther: string
     task: string
-    done: boolean
+    done: ID[]
   }
 
   interface Stage {

@@ -39,6 +39,7 @@ import {
   TextareaControl,
 } from "formik-chakra-ui"
 import { HiOutlineSparkles } from "react-icons/hi"
+import useRoadmapTemplates from "../../hooks/useRoadmapTemplates"
 
 type MilestoneFormData = Omit<Milestone, "done" | "id">
 
@@ -135,7 +136,7 @@ const SingleMilestone = ({ milestone }) => {
   )
 }
 
-const SingleStage = ({ tmpl }: SingleProps) => {
+const SingleStage = ({ tmpl }) => {
   const firestore = useFirestore()
   const roadmap = collection(firestore, "roadmapTemplates", tmpl.id, "roadmap")
   const roadmapQuery = query(roadmap, orderBy("title", "asc"))
@@ -192,15 +193,7 @@ const backgrounds = [
 ]
 
 export default () => {
-  const firestore = useFirestore()
-  const roadmapTemplates = collection(firestore, "roadmapTemplates")
-  const roadmapTemplatesQuery = query(
-    roadmapTemplates,
-    orderBy("createdAt", "desc")
-  )
-  const { status, data } = useFirestoreCollectionData(roadmapTemplatesQuery, {
-    idField: "id",
-  })
+  const { status, data } = useRoadmapTemplates("createdAt", "desc")
 
   if (status === "loading") return <Loading />
 
