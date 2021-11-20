@@ -78,9 +78,6 @@ export default ({}) => {
           </Box>
         ))}
       </HStack>
-      <Stack spacing={5} margin={8}>
-        <Heading>Your current progress on this stage:</Heading>
-      </Stack>
       <WeeklyUpdateView />
     </>
   )
