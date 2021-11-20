@@ -17,7 +17,6 @@ declare global {
   }
 
   interface Milestone {
-    id: ID
     title: string
     intro: string
     learn: string

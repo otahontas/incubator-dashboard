@@ -11,7 +11,7 @@ export default (props: MilestoneCardPartProps) => {
   return (
     <Box pb="4" textAlign="center">
       <Heading size="3xs">{title}</Heading>
-      <Text fontSize="sm">{text.split(" ").splice(20).join(" ")}...</Text>
+      <Text fontSize="sm">{text.split(" ").slice(0, 20).join(" ")}...</Text>
     </Box>
   )
 }

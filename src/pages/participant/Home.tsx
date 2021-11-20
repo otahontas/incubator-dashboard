@@ -111,12 +111,12 @@ export default ({}) => {
       </Heading>
 
       <Divider py="8" />
-      <HStack overflowX="auto">
+      <Flex overflowX="auto">
         {activeStage.milestones.map((milestone, i) => (
-          <Box key={milestone.title} p="6" minW="300px">
+          <Box key={milestone.title} p="6" w="400px">
             <VStack>
-              <Heading size="sm"> Checkpoint{i + 1} </Heading>
-              <Text size="md"> {milestone.title} </Text>
+              <Text> Checkpoint{i + 1} </Text>
+              <Heading size="md"> {milestone.title} </Heading>
               <Box p="6" borderWidth="1px" borderRadius="md">
                 <MilestoneCardPart title="Intro" text={milestone.intro} />
                 <MilestoneCardPart title="Learn" text={milestone.learn} />
@@ -147,7 +147,7 @@ export default ({}) => {
             </VStack>
           </Box>
         ))}
-      </HStack>
+      </Flex>
       <WeeklyUpdateView />
     </>
   )
