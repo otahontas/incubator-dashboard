@@ -13,13 +13,27 @@ declare global {
   }
 
   interface Coach {
-    uid: ID
+    id: ID
     role: string
   }
 
-  interface Milestone {
-    uid: ID
+  interface TaskCheckpoint {
+    id: ID
+    name: string
+    done: boolean
+  }
+  interface Task {
+    description: string
+    taskCheckpoints: TaskCheckpoint[]
+  }
+  interface Checkpoint {
+    id: ID
     title: string
+    intro: string
+    learn: string
+    learnMoreAaltoCourses: string
+    learnMoreOther: string
+    task: Task
   }
 
   interface WeeklyUpdate {
