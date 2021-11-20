@@ -11,6 +11,7 @@ import {
   Stack,
   VStack,
   Progress,
+  Center
 } from "@chakra-ui/react"
 import { AiOutlineTeam } from "react-icons/ai"
 import { useState } from "react"
