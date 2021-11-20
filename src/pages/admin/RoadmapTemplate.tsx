@@ -1,41 +1,182 @@
-import { Heading, Stack } from "@chakra-ui/react"
+import { Divider, Heading, Stack } from "@chakra-ui/react"
 import {
+  Button,
   Box,
   Flex,
   Text,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react"
 
-import { collection, query } from "firebase/firestore"
-import type { DocumentData } from "firebase/firestore"
+import * as Yup from "yup"
+import {
+  doc,
+  collection,
+  query,
+  orderBy,
+  updateDoc,
+  getDoc,
+  serverTimestamp,
+} from "firebase/firestore"
 import { useFirestoreCollectionData, useFirestore } from "reactfire"
 import Loading from "../../sharedComponents/Loading"
-interface SingleProps {
-  tmpl: DocumentData
+import useToggle from "../../hooks/useToggle"
+import { ButtonGroup } from "@chakra-ui/button"
+import {
+  Center,
+  HStack,
+  StackDivider,
+  VStack,
+  List,
+  ListItem,
+  ListIcon,
+} from "@chakra-ui/react"
+import { Formik } from "formik"
+import {
+  InputControl,
+  ResetButton,
+  SubmitButton,
+  TextareaControl,
+} from "formik-chakra-ui"
+import { HiOutlineSparkles } from "react-icons/hi"
+
+type MilestoneFormData = Omit<Milestone, "done" | "id">
+
+const MilestoneForm = ({ tmpl, stage }) => {
+  const [showForm, toggle] = useToggle<boolean>()
+  const initialValues: MilestoneFormData = {
+    title: "",
+    intro: "",
+    learn: "",
+    learnMoreAaltoCourses: "",
+    learnMoreOther: "",
+    task: "",
+  }
+
+  const validationSchema = Yup.object({
+    title: Yup.string().required(),
+    intro: Yup.string().required(),
+    learn: Yup.string().required(),
+    learnMoreAaltoCourses: Yup.string().required(),
+    learnMoreOther: Yup.string().required(),
+    task: Yup.string().required(),
+  })
+
+  const toast = useToast()
+  const firestore = useFirestore()
+
+  const onSubmit = async (values: MilestoneFormData) => {
+    const d = doc(firestore, "roadmapTemplates", tmpl.id, "roadmap", stage.id)
+    await updateDoc(d, {
+      milestones: [...stage.milestones, values],
+      updatedAt: serverTimestamp(),
+    })
+    toast({
+      title: "successfully added new milesone!",
+      status: "success",
+      isClosable: true,
+      duration: 5000,
+    })
+    toggle()
+  }
+
+  if (!showForm) {
+    return <Button onClick={toggle}>Add new milestone</Button>
+  }
+
+  return (
+    <Formik
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+      initialValues={initialValues}
+    >
+      {({ handleSubmit, isSubmitting }) => (
+        <Box
+          rounded="lg"
+          maxWidth={800}
+          p={6}
+          m="10px auto"
+          as="form"
+          onSubmit={handleSubmit as any}
+        >
+          <InputControl name="title" label="Title" />
+          <TextareaControl name="intro" label="Intro" />
+          <TextareaControl name="learn" label="Learn about it here" />
+          <TextareaControl
+            name="learnMoreAaltoCourses"
+            label="Want to know more? (Optional, Aalto courses)"
+          />
+          <TextareaControl
+            name="learnMoreOther"
+            label="Want to know more? (Optional, external partners and events)"
+          />
+          <TextareaControl name="task" label="Task description and output" />
+          <ButtonGroup style={{ marginTop: "8px" }}>
+            <SubmitButton isLoading={isSubmitting}>Submit</SubmitButton>
+            <ResetButton>Reset</ResetButton>
+            <Button type="button" onClick={toggle}>
+              Cancel
+            </Button>
+          </ButtonGroup>
+        </Box>
+      )}
+    </Formik>
+  )
 }
 
-const SingleRoadmap = ({ tmpl }: SingleProps) => {
+const SingleMilestone = ({ milestone }) => {
+  return (
+    <List spacing={3}>
+      <ListItem>
+        <ListIcon as={HiOutlineSparkles} color="green.500" />
+        {milestone.title}
+      </ListItem>
+    </List>
+  )
+}
+
+const SingleStage = ({ tmpl }: SingleProps) => {
   const firestore = useFirestore()
   const roadmap = collection(firestore, "roadmapTemplates", tmpl.id, "roadmap")
-  const roadmapQuery = query(roadmap)
+  const roadmapQuery = query(roadmap, orderBy("title", "asc"))
   const { status, data } = useFirestoreCollectionData(roadmapQuery, {
     idField: "id",
   })
-  return status === "loading" ? <Loading />: (
+  console.log(data)
+  return status === "loading" ? (
+    <Loading />
+  ) : (
     <>
-      <Heading 
-        color={"blue.400"}
-        fontSize={"2xl"} fontFamily={"body"}>
+      <Heading color={"blue.400"} fontSize={"2xl"} fontFamily={"body"}>
         {tmpl.title}
       </Heading>
       <Stack spacing={8}>
         {data.map((d) => (
-<Box key={d.id} p={5} shadow="sm" borderWidth="1px" style={{marginTop: '8px'}}>
+          <Box
+            key={d.id}
+            p={5}
+            shadow="sm"
+            borderWidth="1px"
+            style={{ marginTop: "8px" }}
+          >
             <Heading fontSize="xl">{d.title}</Heading>
             <Text mt={4}>
-              Description of the milestone goes here. Lorem ipsum lorem ipsum
-              dolor sit amet.
+              Description of the stage goes here. Lorem ipsum lorem ipsum dolor
+              sit amet.
             </Text>
+            <Divider p={4} />
+
+            <Heading fontSize="md">Current milestones:</Heading>
+            {d?.milestones &&
+              d.milestones.map((ml) => (
+                <SingleMilestone
+                  key={ml.id}
+                  milestone={ml}
+                  tmpl={tmpl}
+                  stage={d}
+                />
+              ))}
+            <MilestoneForm tmpl={tmpl} stage={d} />
           </Box>
         ))}
       </Stack>
@@ -53,7 +194,10 @@ const backgrounds = [
 export default () => {
   const firestore = useFirestore()
   const roadmapTemplates = collection(firestore, "roadmapTemplates")
-  const roadmapTemplatesQuery = query(roadmapTemplates)
+  const roadmapTemplatesQuery = query(
+    roadmapTemplates,
+    orderBy("createdAt", "desc")
+  )
   const { status, data } = useFirestoreCollectionData(roadmapTemplatesQuery, {
     idField: "id",
   })
@@ -61,7 +205,7 @@ export default () => {
   if (status === "loading") return <Loading />
 
   return (
-      <Stack spacing={6} w="100%" alignItems="center">
+    <Stack spacing={6} w="100%" alignItems="center">
       <Text
         textTransform={"uppercase"}
         color={"blue.400"}
@@ -111,10 +255,10 @@ export default () => {
             textAlign={"left"}
             justifyContent={"space-between"}
           >
-            <SingleRoadmap tmpl={tmpl} />
+            <SingleStage tmpl={tmpl} />
           </Flex>
         </Flex>
-  ))}
-  </Stack>
+      ))}
+    </Stack>
   )
 }

@@ -6,7 +6,11 @@ import {
   HStack,
   StackDivider,
   VStack,
+  List,
+  ListItem,
+  ListIcon
 } from "@chakra-ui/layout"
+import { MdCheckCircle} from '@chakra-ui/icons'
 import useAuthenticatedUser from "../../hooks/useAuthenticatedUser"
 import Loading from "../../sharedComponents/Loading"
 import Home from "./Home"
@@ -85,7 +89,6 @@ const JoinTeamForm: React.FC<{ user: any }> = ({ user }) => {
   const onSubmit = async (values: JoinForm) => {
     const teamDoc = await getDoc(doc(firestore, "teams", values.teamCode))
     if (teamDoc.exists()) {
-      console.log(teamDoc)
       await updateDoc(doc(firestore, "teams", teamDoc.id), {
         members: teamDoc.data().members.concat(user.id),
       })

@@ -10,7 +10,7 @@ declare global {
     coachId: string
   }
 
-  interface Coach {
+  interface User {
     id: ID
     role: string
   }
