@@ -7,7 +7,7 @@ const ViewRedirecter: React.FC = () => {
   const { status, data } = useAuthenticatedUser()
   const navigate = useNavigate()
   useEffect(() => {
-    if (status === 'loading') return
+    if (status === 'loading' || !data?.role) return
     if (data.role === 'coach') {
       navigate('/coach')
       return
