@@ -30,7 +30,7 @@ export default ({}) => {
   const { status: userStatus, data: userData } = useAuthenticatedUser()
 
   useEffect(() => {
-    if (!data) return
+    if (!data || currentStageId !== null) return
     setCurrentStageId(data.roadmap[0].id)
   }, [data])
 
