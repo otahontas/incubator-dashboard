@@ -8,20 +8,15 @@ import {
   VStack,
   List,
   ListItem,
-  ListIcon
+  ListIcon,
 } from "@chakra-ui/layout"
-import { MdCheckCircle} from '@chakra-ui/icons'
 import useAuthenticatedUser from "../../hooks/useAuthenticatedUser"
 import Loading from "../../sharedComponents/Loading"
 import Home from "./Home"
 import { Formik } from "formik"
 import * as Yup from "yup"
 import { useToast } from "@chakra-ui/toast"
-import {
-  InputControl,
-  ResetButton,
-  SubmitButton,
-} from "formik-chakra-ui"
+import { InputControl, ResetButton, SubmitButton } from "formik-chakra-ui"
 import { updateDoc, doc, addDoc, collection, getDoc } from "firebase/firestore"
 import { useFirestore } from "reactfire"
 import useRoadmapTemplates from "../../hooks/useRoadmapTemplates"
@@ -45,7 +40,7 @@ const CreateTeamForm: React.FC<{ user: any }> = ({ user }) => {
     const teamDoc = await addDoc(collection(firestore, "teams"), {
       members: [user.id],
       name: values.name,
-      roadmap: data
+      roadmap: data,
     })
     await updateDoc(doc(firestore, "users", user.id), {
       teamId: teamDoc.id,
@@ -71,8 +66,7 @@ const CreateTeamForm: React.FC<{ user: any }> = ({ user }) => {
             <Box as="form" onSubmit={handleSubmit as any}>
               <InputControl name="name" label="Enter your team name" />
               <ButtonGroup style={{ marginTop: "8px" }}>
-                <SubmitButton>Submit</SubmitButton>
-                <ResetButton>Reset</ResetButton>
+                <SubmitButton colorScheme="orange">Submit</SubmitButton>
               </ButtonGroup>
             </Box>
           )}
@@ -121,8 +115,9 @@ const JoinTeamForm: React.FC<{ user: any }> = ({ user }) => {
                   label="Enter your team code here"
                 />
                 <ButtonGroup style={{ marginTop: "8px" }}>
-                  <SubmitButton isLoading={isSubmitting}>Submit</SubmitButton>
-                  <ResetButton>Reset</ResetButton>
+                  <SubmitButton colorScheme="green" isLoading={isSubmitting}>
+                    Submit
+                  </SubmitButton>
                 </ButtonGroup>
               </Box>
             )}
@@ -142,7 +137,7 @@ export default () => {
     return <Home user={data} />
   }
   return (
-    <Center>
+    <Center h="100%">
       <Box
         borderWidth="1px"
         rounded="lg"
