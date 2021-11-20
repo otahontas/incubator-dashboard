@@ -5,7 +5,7 @@ import useAuthenticatedUser from "./useAuthenticatedUser"
 const useTeam = () => {
   const firestore = useFirestore()
   const user = useAuthenticatedUser()
-  const team = doc(firestore, "teams", user?.data?.teamId)
+  const team = doc(firestore, "teams", user?.data?.teamId || '')
   return useFirestoreDocData(team, {
     idField: "id"
   })
