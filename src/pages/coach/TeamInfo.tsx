@@ -1,7 +1,7 @@
 import { Box, Heading, HStack, StackDivider, Text, VStack, Button, Center, SimpleGrid, Divider, Progress } from "@chakra-ui/react"
 import {Avatar, AvatarGroup} from '@chakra-ui/avatar'
 // import { query, collection } from "firebase/firestore"
-import { useLocation } from "react-router-dom"
+import { useLocation, Link } from "react-router-dom"
 import faker from "faker"
 // import { useFirestore, useFirestoreCollectionData, useFireStoreData } from "reactfire"
 
@@ -21,7 +21,7 @@ export default () => {
       <SimpleGrid mt={6} columns={3}>
         {team.members.map((member) => (
           <Box key={member} borderWidth='2px' p="6" minW="300px">
-            <HStack>
+            <HStack as={Link} to={`/coach/${team.id}/${member}`}>
                   <Avatar />
                   <Heading size='md'>{faker.name.findName()}</Heading>
             </HStack>
