@@ -5,19 +5,16 @@ import {
   TabPanels,
   TabPanel,
   Container,
-  Box,
   Heading,
   Stack,
-  Text,
-  useColorModeValue,
 } from "@chakra-ui/react"
 import Roadmaps from "./RoadmapTemplate"
-
+import Coaches from "./CoachManagement"
 
 export default () => {
   return (
     <>
-      <Container maxW="container.md">
+      <Container maxW="container.lg">
         <Stack spacing={12}>
           <Heading>Manage the program</Heading>
           <Tabs isFitted variant="enclosed" colorScheme="blue">
@@ -31,7 +28,7 @@ export default () => {
                 <Roadmaps />
               </TabPanel>
               <TabPanel>
-                <Roadmaps />
+                <Coaches />
               </TabPanel>
               <TabPanel>
                 <Roadmaps />

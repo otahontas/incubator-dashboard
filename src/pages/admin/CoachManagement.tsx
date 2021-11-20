@@ -1,9 +1,14 @@
 import { Heading, Stack } from "@chakra-ui/react"
 import {
-  Box,
-  Flex,
-  Text,
   Center,
+  Avatar,
+  Box,
+  chakra,
+  Container,
+  Flex,
+  Icon,
+  SimpleGrid,
+  Text,
   useColorModeValue,
 } from "@chakra-ui/react"
 
@@ -23,14 +28,18 @@ const SingleRoadmap = ({ tmpl }: SingleProps) => {
   })
   return status === "loading" ? null : (
     <>
-      <Heading 
-        color={"blue.400"}
-        fontSize={"2xl"} fontFamily={"body"}>
+      <Heading color={"blue.400"} fontSize={"2xl"} fontFamily={"body"}>
         {tmpl.title}
       </Heading>
       <Stack spacing={8}>
         {data.map((d) => (
-<Box key={d.id} p={5} shadow="sm" borderWidth="1px" style={{marginTop: '8px'}}>
+          <Box
+            key={d.id}
+            p={5}
+            shadow="sm"
+            borderWidth="1px"
+            style={{ marginTop: "8px" }}
+          >
             <Heading fontSize="xl">{d.title}</Heading>
             <Text mt={4}>
               Description of the milestone goes here. Lorem ipsum lorem ipsum
@@ -52,68 +61,13 @@ const backgrounds = [
 
 export default () => {
   const firestore = useFirestore()
-  const roadmapTemplates = collection(firestore, "roadmapTemplates")
-  const roadmapTemplatesQuery = query(roadmapTemplates)
-  const { status, data } = useFirestoreCollectionData(roadmapTemplatesQuery, {
+  const users = collection(firestore, "users")
+  const usersQuery = query(users)
+  const { status, data: userData } = useFirestoreCollectionData(usersQuery, {
     idField: "id",
   })
-
   if (status === "loading") return null
-
-  return (
-      <Stack spacing={6} w="100%" alignItems="center">
-      <Text
-        textTransform={"uppercase"}
-        color={"blue.400"}
-        fontWeight={600}
-        fontSize={"sm"}
-        bg={useColorModeValue("blue.50", "blue.900")}
-        p={2}
-        alignSelf={"flex-start"}
-        rounded={"md"}
-      >
-        All roadmap templates
-      </Text>
-      <Text color={"gray.500"} fontSize={"lg"}>
-        Here you can find the roadmap templates you can assign to different
-        teams.
-      </Text>
-      {data.map((tmpl, index) => (
-        <Flex
-          boxShadow={"lg"}
-          maxW={"640px"}
-          direction={{ base: "column-reverse", md: "row" }}
-          width={"full"}
-          rounded={"xl"}
-          p={10}
-          justifyContent={"space-between"}
-          position={"relative"}
-          bg={useColorModeValue("white", "gray.800")}
-          _before={{
-            content: '""',
-            position: "absolute",
-            zIndex: "-1",
-            height: "full",
-            maxW: "640px",
-            width: "full",
-            filter: "blur(40px)",
-            transform: "scale(0.98)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            top: 0,
-            left: 0,
-            backgroundImage: backgrounds[index % 4],
-          }}
-        >
-          <Flex
-            direction={"column"}
-            textAlign={"left"}
-            justifyContent={"space-between"}
-          >
-            <SingleRoadmap key={tmpl.id} tmpl={tmpl} />
-          </Flex>
-        </Flex>
-  ))}
-  </Stack>
-  )
+  const coaches = userData.filter((d) => d.role === "coach")
+  console.log(coaches)
+  return null
 }
