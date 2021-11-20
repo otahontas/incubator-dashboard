@@ -19,8 +19,8 @@ import Loading from "../../sharedComponents/Loading"
 import useAuthenticatedUser from "../../hooks/useAuthenticatedUser"
 import MilestoneCardPart from "./MilestoneCardPart"
 
-export default ({ }) => {
-  const { status, data} = useTeam()
+export default ({}) => {
+  const { status, data } = useTeam()
   const [currentStageId, setCurrentStageId] = useState(null)
   const { status: userStatus, data: userData } = useAuthenticatedUser()
 
@@ -33,7 +33,7 @@ export default ({ }) => {
     return <Loading />
   }
   const { roadmap: stages } = data
-  const activeStage = stages.find(stage => stage.id === currentStageId)
+  const activeStage = stages.find((stage) => stage.id === currentStageId)
 
   return (
     <>
@@ -47,8 +47,8 @@ export default ({ }) => {
       <HStack spacing="4" margin={4}>
         {stages.map((stage) => (
           <Button colorScheme="green" variant={currentStageId === stage.id ? "solid" : "ghost"}
-            onClick={() => setCurrentStageId(stage.id)}key={stage.id}>
-          {stage.title}{" "}
+            onClick={() => setCurrentStageId(stage.id)} key={stage.id}>
+            {stage.title}
           </Button>
         ))}
       </HStack>
@@ -67,13 +67,15 @@ export default ({ }) => {
               <Box p="6" borderWidth="1px" borderRadius="md">
                 <MilestoneCardPart title="Intro" text={milestone.intro} />
                 <MilestoneCardPart title="Learn" text={milestone.learn} />
-                <Divider />
+                <Divider mb="6" />
                 <MilestoneCardPart title="Task" text={milestone.task} />
-                <Button colorScheme="orange">Mark as done</Button>
+                <Center pt="8">
+                  <Button colorScheme="orange">Mark as done</Button>
+                </Center>
               </Box>
             </VStack>
           </Box>
-      ))}
+        ))}
       </HStack>
       <Stack spacing={5} margin={8}>
         <Heading>Your current progress on this stage:</Heading>
