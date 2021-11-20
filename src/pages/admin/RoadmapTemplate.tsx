@@ -69,7 +69,10 @@ const MilestoneForm = ({ tmpl, stage }) => {
   const onSubmit = async (values: MilestoneFormData) => {
     const d = doc(firestore, "roadmapTemplates", tmpl.id, "roadmap", stage.id)
     await updateDoc(d, {
-      milestones: [...stage.milestones, values],
+      milestones: [...stage.milestones, {
+        ...values,
+        done: []
+      }],
       updatedAt: serverTimestamp(),
     })
     toast({
