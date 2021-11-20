@@ -4,6 +4,7 @@ import ParticipantHome from "./pages/participant/Home"
 import CoachHome from "./pages/coach/Home"
 import Proxy from "./pages/Proxy"
 import CoachLayout from "./layouts/CoachLayout"
+import TeamInfo from "./pages/coach/TeamInfo"
 
 export const routes: RouteObject[] = [
   {
@@ -27,6 +28,10 @@ export const routes: RouteObject[] = [
       {
         path: "/coach/",
         element: <CoachHome />,
+      },
+      {
+        path: "/coach/:teamId",
+        element: <TeamInfo />,
       },
     ],
   },
