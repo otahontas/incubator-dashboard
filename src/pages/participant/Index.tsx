@@ -74,6 +74,9 @@ const JoinTeamForm: React.FC<{user: any}> = ({user}) => {
             await updateDoc(doc(firestore, 'teams', teamDoc.id), {
                 members: teamDoc.data().members.concat(user.id)
             })
+            await updateDoc(doc(firestore, 'users', user.id), {
+                teamId: teamDoc.data().id
+            })
         }
     }
     return  <VStack>
