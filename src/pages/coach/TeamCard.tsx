@@ -19,7 +19,6 @@ export default (props: TeamCardProps) => {
           onClick={() => navigate(`/coach/${team.id}`, { state: team })}
         />
       </Flex>
-      <Text> {team.projectDescriptionMax50chars}</Text>
       <Text> Team members ids {team.members}</Text>
     </Box>
   )

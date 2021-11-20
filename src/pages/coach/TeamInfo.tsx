@@ -18,8 +18,6 @@ export default () => {
   return (
     <Box>
       <Heading size="2xl"> {team.name}</Heading>
-      <Heading pt="6">{team.projectDescriptionMax50chars}</Heading>
-      <Text pt="8">{team.projectDescriptionLong}</Text>
       <Heading pt="12" pb="6" size="md">
         Weekly updates
       </Heading>
