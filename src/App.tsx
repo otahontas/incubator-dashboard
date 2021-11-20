@@ -6,7 +6,6 @@ import Loading from "./sharedComponents/Loading"
 import { Button, Center, Heading, VStack } from "@chakra-ui/react"
 import ErrorBoundary from "./sharedComponents/ErrorBoundary"
 
-// plz fix this, it's ugly
 const LoginButton = () => {
   const auth = useAuth()
   const login = async () => {
