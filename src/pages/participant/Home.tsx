@@ -10,9 +10,11 @@ import {
   Heading,
   HStack,
   SimpleGrid,
+  VStack,
 } from "@chakra-ui/react"
 import { AiOutlineTeam } from "react-icons/ai"
 import { useState } from "react"
+import MilestoneCardPart from "./MilestoneCardPart"
 
 export default ({ user }) => {
   const milestone: Milestone = {
@@ -32,13 +34,13 @@ export default ({ user }) => {
 
   const stage1: Stage = {
     id: "lol",
-    name: "Stage0",
+    name: "Stage1",
     milestones: [milestone, milestone, milestone, milestone],
   }
 
   const stage2: Stage = {
     id: "lol2",
-    name: "Stage1",
+    name: "Stage2",
     milestones: [milestone],
   }
 
@@ -55,7 +57,7 @@ export default ({ user }) => {
       <HStack spacing="4">
         {stages.map((stage) => (
           <Button onClick={() => setStage(stage)} key={stage.id}>
-            {stage.name}{" "}
+            {stage.name}
           </Button>
         ))}
       </HStack>
@@ -63,11 +65,15 @@ export default ({ user }) => {
       <Text>Active stage {stage.name}</Text>
       <Divider py="8" />
       <HStack overflowX="auto">
-        {stage.milestones.map((milestone) => (
-          <Box key={milestone.id} p="6" borderWidth="1px" borderRadius="lg">
-            <Center>
-              <Heading size="md"> {milestone.title} </Heading>
-            </Center>
+        {stage.milestones.map((milestone, i) => (
+          <Box key={milestone.id} p="6" minW="300px">
+            <VStack>
+              <Heading size="sm"> Checkpoint{i + 1} </Heading>
+              <Text size="md"> {milestone.title} </Text>
+              <Box p="6" borderWidth="1px" borderRadius="md">
+                <MilestoneCardPart title="Intro" text={milestone.intro} />
+              </Box>
+            </VStack>
           </Box>
         ))}
       </HStack>
