@@ -62,7 +62,7 @@ export const WeeklyUpdateView = () => {
   return (
     <Flex pb="8" direction="column" alignItems="center" width="">
       <Heading py="8" size="lg">
-        Send weekly update
+        Send a weekly update
       </Heading>
 
       <Formik
