@@ -29,7 +29,7 @@ const SingleFeedback = ({ feedback, weekNumber }) => {
             alignSelf={"flex-start"}
             rounded={"lg"}
           >
-            Feedback sent on{" "}
+            Update sent on{" "}
             {new Date(feedback.createdAt.seconds * 1000).toLocaleDateString(
               "fi-FI"
             )}
