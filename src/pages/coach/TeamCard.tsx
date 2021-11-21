@@ -7,10 +7,11 @@ import faker from "faker"
 import {Link} from 'react-router-dom'
 export interface TeamCardProps {
   team: Team
+  src: string
 }
 
 export default (props: TeamCardProps) => {
-  const { team } = props
+  const { team, src } = props
   const navigate = useNavigate()
   const { data, status } = useAllUsers()
 
@@ -19,7 +20,7 @@ export default (props: TeamCardProps) => {
   return (
     <Box cursor='pointer' onClick={() => navigate(`/coach/${team.id}`, { state: team })} p="6" borderWidth="1px" borderRadius="lg">
       <HStack spacing="5">
-        <Avatar  />
+        <Avatar src={src}  />
         <Heading>{team.name}</Heading>
       </HStack>
       <Heading pt="4" size="sm">
