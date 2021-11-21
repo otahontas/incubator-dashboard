@@ -43,8 +43,8 @@ import useRoadmapTemplates from "../../hooks/useRoadmapTemplates"
 
 type MilestoneFormData = Omit<Milestone, "done" | "id">
 
-const MilestoneForm = ({ tmpl, stage }) => {
-  const [showForm, toggle] = useToggle<boolean>()
+const MilestoneForm = ({ tmpl, stage }: {tmpl: any, stage: any}) => {
+  const [showForm, toggle] = useToggle()
   const initialValues: MilestoneFormData = {
     title: "",
     intro: "",
@@ -128,7 +128,7 @@ const MilestoneForm = ({ tmpl, stage }) => {
   )
 }
 
-const SingleMilestone = ({ milestone }) => {
+const SingleMilestone = ({ milestone }: {milestone: any}) => {
   return (
     <List spacing={3}>
       <ListItem>
@@ -139,7 +139,7 @@ const SingleMilestone = ({ milestone }) => {
   )
 }
 
-const SingleStage = ({ tmpl }) => {
+const SingleStage = ({ tmpl }: {tmpl: any}) => {
   const firestore = useFirestore()
   const roadmap = collection(firestore, "roadmapTemplates", tmpl.id, "roadmap")
   const roadmapQuery = query(roadmap, orderBy("title", "asc"))
@@ -175,7 +175,8 @@ const SingleStage = ({ tmpl }) => {
               d.milestones.map((ml) => (
                 <SingleMilestone
                   key={ml.id}
-                  milestone={ml}
+                    milestone={ml}
+                    //@ts-ignore
                   tmpl={tmpl}
                   stage={d}
                 />
