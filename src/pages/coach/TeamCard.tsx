@@ -13,6 +13,7 @@ import useAllUsers from "../../hooks/useAllUsers"
 import Loading from "../../sharedComponents/Loading"
 import faker from "faker"
 import { Link } from "react-router-dom"
+import { XAxis, YAxis, CartesianGrid, Line, LineChart } from "recharts"
 export interface TeamCardProps {
   team: Team
   src: string
@@ -28,6 +29,13 @@ export default (props: TeamCardProps) => {
   const { team, src } = props
   const navigate = useNavigate()
   const { data, status } = useAllUsers()
+
+  const data1 = [ ...Array(10).fill(0) ].map((_, i) => ({ x: getRandomIntInclusive(0, 5) }))
+  // get average of data1
+  const average = data1.reduce((acc, curr) => {
+    return { x: acc.x + curr.x }
+  }, { x: 0 })
+  const {x: avg} = { x: average.x / data1.length  }
 
   if (status === "loading") return <Loading />
 
@@ -59,10 +67,17 @@ export default (props: TeamCardProps) => {
             Team motivation
           </Heading>
           <Center pt="4">
-            <Heading> {getRandomIntInclusive(1, 5)} </Heading>
+            <Heading> {avg} </Heading>
           </Center>
         </Box>
       </Flex>
+      <Box mt={8}>
+            <LineChart width={350} height={200} data={data1}>
+              <XAxis />
+              <YAxis domain={[0, 5]} />
+              <Line dataKey="x" stroke="#48BB78" />
+            </LineChart>
+          </Box>
     </Box>
   )
 }
