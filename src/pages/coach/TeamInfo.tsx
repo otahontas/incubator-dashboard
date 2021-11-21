@@ -37,8 +37,9 @@ export default () => {
           {team.name}
         </Heading>
       </HStack>
-      <Heading size="md">Team stage 1</Heading>
-      <Divider mt={5} />
+      <Heading mt="8" mb="8" size="md">
+        Team stage 1
+      </Heading>
       <TeamView team={team} userData={userData} />
     </Box>
   )
