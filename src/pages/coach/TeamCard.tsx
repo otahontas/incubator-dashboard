@@ -1,4 +1,4 @@
-import { Flex, Heading, Box, Text, Avatar } from "@chakra-ui/react"
+import { Flex, Heading, Box, Text, Avatar, HStack } from "@chakra-ui/react"
 import { BsArrowsAngleExpand } from "react-icons/bs"
 import { useNavigate } from "react-router-dom"
 import useAllUsers from "../../hooks/useAllUsers"
@@ -18,10 +18,10 @@ export default (props: TeamCardProps) => {
 
   return (
     <Box cursor='pointer' onClick={() => navigate(`/coach/${team.id}`, { state: team })} p="6" borderWidth="1px" borderRadius="lg">
-      <Flex justify="space-between">
+      <HStack spacing="5">
         <Avatar  />
         <Heading>{team.name}</Heading>
-      </Flex>
+      </HStack>
       <Heading pt="4" size="sm">
         Team members
       </Heading>
