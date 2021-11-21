@@ -12,9 +12,9 @@ export interface TeamCardProps {
 export default (props: TeamCardProps) => {
   const { team } = props
   const navigate = useNavigate()
-  const { data, status }= useAllUsers()
+  const { data, status } = useAllUsers()
 
-  if (status === 'loading') return <Loading />
+  if (status === "loading") return <Loading />
 
   return (
     <Box cursor='pointer' onClick={() => navigate(`/coach/${team.id}`, { state: team })} p="6" borderWidth="1px" borderRadius="lg">
@@ -22,10 +22,14 @@ export default (props: TeamCardProps) => {
         <Avatar  />
         <Heading>{team.name}</Heading>
       </Flex>
-      <Text> Team members</Text>
-      {team.members.map(t => <Text>{
-        data.find(u => u.id === t)?.name || faker.name.findName()
-      }</Text>)}
+      <Heading pt="4" size="sm">
+        Team members
+      </Heading>
+      {team.members.map((t) => (
+        <Text>
+          {data.find((u) => u.id === t)?.name || faker.name.findName()}
+        </Text>
+      ))}
     </Box>
   )
 }

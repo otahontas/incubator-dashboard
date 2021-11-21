@@ -38,7 +38,11 @@ import { InputControl } from "formik-chakra-ui"
 
 export default ({}) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { isOpen: infoOpen, onOpen: infoOnOpen, onClose: infoOnClose } = useDisclosure()
+  const {
+    isOpen: infoOpen,
+    onOpen: infoOnOpen,
+    onClose: infoOnClose,
+  } = useDisclosure()
   const { status, data } = useTeam()
   const [currentStageId, setCurrentStageId] = useState(null)
   const [currentlySelect, setCurrentlySelect] = useState(null)
@@ -129,7 +133,7 @@ export default ({}) => {
             width: "100%",
             marginRight: "auto",
             paddingLeft: "16px",
-            paddingRight: "16px",
+            paddingRight: "24px",
           }}
         >
           <Progress
@@ -140,7 +144,12 @@ export default ({}) => {
             width="100%"
           />
         </div>
-        <Button as={Link} to={`/participant/team`} leftIcon={<AiOutlineTeam />}>
+        <Button
+          px="8"
+          as={Link}
+          to={`/participant/team`}
+          leftIcon={<AiOutlineTeam />}
+        >
           Switch to team view
         </Button>
       </Flex>
@@ -158,25 +167,25 @@ export default ({}) => {
         ))}
       </HStack>
 
-      <Heading as="h6" size="xs">
-        Team ID: {userData.teamId}. Send this to your friends!
-      </Heading>
-
-      <Divider py="8" />
+      <Divider mt="4" mb="2" />
       <Flex overflowX="auto">
         {activeStage.milestones.map((milestone, i) => (
           <Box key={milestone.title} p="6" w="400px">
             <VStack>
-              <Text> Checkpoint{i + 1} </Text>
+              <Text> Checkpoint {i + 1} </Text>
               <Heading size="md"> {milestone.title} </Heading>
               <Box p="6" borderWidth="1px" borderRadius="md">
-                <Box cursor='pointer' onClick={() => {
-                  setCurrentlySelect(milestone)
-                  infoOnOpen()
-                  }}><MilestoneCardPart title="Intro" text={milestone.intro} />
-                <MilestoneCardPart title="Learn" text={milestone.learn} />
-                <Divider mb="6" />
-                <MilestoneCardPart title="Task" text={milestone.task} />
+                <Box
+                  cursor="pointer"
+                  onClick={() => {
+                    setCurrentlySelect(milestone)
+                    infoOnOpen()
+                  }}
+                >
+                  <MilestoneCardPart title="Intro" text={milestone.intro} />
+                  <MilestoneCardPart title="Learn" text={milestone.learn} />
+                  <Divider mb="6" />
+                  <MilestoneCardPart title="Task" text={milestone.task} />
                 </Box>
                 <Center pt="8">
                   {milestone?.done && milestone.done.includes(userData.id) ? (
@@ -205,6 +214,7 @@ export default ({}) => {
         ))}
       </Flex>
       <WeeklyUpdateView />
+      <Box h="12" />
       <Modal isOpen={infoOpen && !!currentlySelect} onClose={infoOnClose}>
         <ModalOverlay />
         <ModalContent>
@@ -213,33 +223,37 @@ export default ({}) => {
           <ModalBody>
             <Box>
               <Box>
-                <Heading size='md'>Intro</Heading>
+                <Heading size="md">Intro</Heading>
                 <Text>{currentlySelect?.intro}</Text>
               </Box>
               <Box mt={3}>
-                <Heading size='md'>Learn</Heading>
+                <Heading size="md">Learn</Heading>
                 <Text>{currentlySelect?.learn}</Text>
               </Box>
               <Box mt={3}>
-                <Heading size='md'>Learn More Aalto Courses</Heading>
+                <Heading size="md">Learn More Aalto Courses</Heading>
                 <Text>{currentlySelect?.learnMoreAaltoCourses}</Text>
               </Box>
               <Box mt={3}>
-                <Heading size='md'>Learn More Other</Heading>
+                <Heading size="md">Learn More Other</Heading>
                 <Text>{currentlySelect?.learnMoreOther}</Text>
               </Box>
               <Box mt={3}>
-                <Heading size='md'>Tasks</Heading>
+                <Heading size="md">Tasks</Heading>
                 <Text>{currentlySelect?.task}</Text>
               </Box>
             </Box>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="orange" mr={3} onClick={() => {
-              setCurrentlySelect(null)
-              infoOnClose()
-              }}>
+            <Button
+              colorScheme="orange"
+              mr={3}
+              onClick={() => {
+                setCurrentlySelect(null)
+                infoOnClose()
+              }}
+            >
               Close
             </Button>
           </ModalFooter>
