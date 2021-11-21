@@ -71,8 +71,8 @@ export default (props: TeamCardProps) => {
           </Center>
         </Box>
       </Flex>
-      <Box mt={8}>
-            <LineChart width={350} height={200} data={data1}>
+      <Box mt={8} display="flex" alignItems="center" justifyContent="flex-start" width="100%">
+        <LineChart width={300} height={200} data={data1} style={{marginLeft: '-32px'}}>
               <XAxis />
               <YAxis domain={[0, 5]} />
               <Line dataKey="x" stroke="#48BB78" />
