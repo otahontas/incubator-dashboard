@@ -98,8 +98,8 @@ export const WeeklyUpdateView = () => {
               name="morale"
               label="How is your motivation? How excited are you to keep going?"
             >
-              <VStack w="100%">
-                <Flex w="70%" justify="space-between">
+              <VStack p="2" w="100%">
+                <Flex py="2" w="70%" justify="space-between">
                   <Text>I just want to stop</Text>
                   <Text>Everything is going really well!</Text>
                 </Flex>
@@ -112,7 +112,7 @@ export const WeeklyUpdateView = () => {
                 </Flex>
               </VStack>
             </RadioGroupControl>
-            <ButtonGroup style={{ marginTop: "8px" }}>
+            <ButtonGroup pt="4" style={{ marginTop: "8px" }}>
               <SubmitButton isLoading={isSubmitting}>Submit</SubmitButton>
               <ResetButton>Reset</ResetButton>
             </ButtonGroup>
