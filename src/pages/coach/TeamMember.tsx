@@ -78,7 +78,7 @@ export default () => {
   if (status === "loading") return <Loading />
   return (
     <VStack>
-      <Heading pb="2">Users weekly feedbacks</Heading>
+      <Heading pb="2">Users weekly updates</Heading>
       {data.length === 0 && (
         <Text>User hasn't given any weekly feedbacks yet!</Text>
       )}
