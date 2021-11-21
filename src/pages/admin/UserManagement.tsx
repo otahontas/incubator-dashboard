@@ -103,7 +103,7 @@ const RoleSelector = ({ user }: RoleSelectorProps) => {
       {() => (
         <SelectControl
           name="role"
-            selectProps={{ placeholder: `Current role: ${capitalize(user.role)}` }}
+            selectProps={{ placeholder: `Current role: ${capitalize(user.role || 'participant')}` }}
         >
         <SubmitListener />
             {roles.map(role => <option key={role} value={role}>{capitalize(role)}</option>)}
@@ -118,7 +118,7 @@ const RoleSelector = ({ user }: RoleSelectorProps) => {
 export default () => {
   const { status, data } = useAllUsers()
   if (status === 'loading') return <Loading />
-
+  console.log(data)
   return (
     <Stack p={6}>
       {data.map(u => <RoleSelector key={u.id} user={u} />)}
