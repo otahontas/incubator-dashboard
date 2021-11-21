@@ -172,8 +172,14 @@ export default ({}) => {
         {activeStage.milestones.map((milestone, i) => (
           <Box key={milestone.title} p="6" w="400px">
             <VStack>
-              <Text> Checkpoint {i + 1} </Text>
-              <Heading size="md"> {milestone.title} </Heading>
+              <Box h="90px">
+                <VStack>
+                  <Text> Checkpoint {i + 1} </Text>
+                  <Heading textAlign="center" size="md">
+                    {milestone.title}
+                  </Heading>
+                </VStack>
+              </Box>
               <Box p="6" borderWidth="1px" borderRadius="md">
                 <Box
                   cursor="pointer"
