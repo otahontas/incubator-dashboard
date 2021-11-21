@@ -1,10 +1,10 @@
-import { Heading, Box, Stack } from "@chakra-ui/react"
+import { Heading, Box, Stack, Flex, Center, VStack } from "@chakra-ui/react"
 import useUsersWeeklyUpdates from "../../hooks/useUsersWeeklyUpdates"
 import Loading from "../../sharedComponents/Loading"
 import { useParams } from "react-router-dom"
 import { Text } from "@chakra-ui/react"
 
-const SingleFeedback = ({ feedback }) => {
+const SingleFeedback = ({ feedback, weekNumber }) => {
   console.log(feedback.createdAt)
   return (
     <Box
@@ -18,13 +18,13 @@ const SingleFeedback = ({ feedback }) => {
       width="100%"
     >
       <Stack spacing={4}>
-        <Box>
+        <Flex direction="row-reverse" justify="space-between">
           <Text
             textTransform={"uppercase"}
-            color={"blue.400"}
+            color={"black"}
             fontWeight={600}
             fontSize={"sm"}
-            bg="blue.50"
+            bg="orange"
             p={2}
             alignSelf={"flex-start"}
             rounded={"lg"}
@@ -34,35 +34,32 @@ const SingleFeedback = ({ feedback }) => {
               "fi-FI"
             )}
           </Text>
-        </Box>
-        <Box>
-          <Heading size="md" color="green.400">
-            What is the biggest improvement you have done this week?"
+          <Heading>Week {weekNumber}</Heading>
+        </Flex>
+        <Box p="2">
+          <Heading size="md">
+            What is the biggest improvement you have done this week?
           </Heading>
           <Text size="md" color="gray.600">
             {feedback.biggestImprovement}
           </Text>
         </Box>
-        <Box>
-          <Heading size="md" color="green.400">
+        <Box p="2">
+          <Heading size="md">
             What is the biggest obstacle you faced this week?
           </Heading>
           <Text size="md" color="gray.600">
             {feedback.biggestObstacle}
           </Text>
         </Box>
-        <Box>
-          <Heading size="md" color="green.400">
-            What have you learned this week?
-          </Heading>
+        <Box p="2">
+          <Heading size="md">What have you learned this week?</Heading>
           <Text size="md" color="gray.600">
             {feedback.learned}
           </Text>
         </Box>
-        <Box>
-          <Heading size="md" color="green.400">
-            How excited are you to keep going?"
-          </Heading>
+        <Box p="2">
+          <Heading size="md">How excited are you to keep going?</Heading>
           <Text size="md" color="gray.600">
             {feedback.morale} out of 5
           </Text>
@@ -78,12 +75,20 @@ export default () => {
   if (status === "loading") return <Loading />
   console.log(data)
   return (
-    <>
-      <Heading>Users weekly feedbacks</Heading>
-      {data.length === 0 && <Text>User hasn't given any weekly feedbacks yet!</Text>}
-      {data.map((f) => (
-        <SingleFeedback key={f.biggestImprovement} feedback={f} />
+    <VStack>
+      <Heading pb="2">Users weekly feedbacks</Heading>
+      {data.length === 0 && (
+        <Text>User hasn't given any weekly feedbacks yet!</Text>
+      )}
+      {data.map((f, i) => (
+        <Box py="2">
+          <SingleFeedback
+            key={f.biggestImprovement}
+            feedback={f}
+            weekNumber={data.length - i}
+          />
+        </Box>
       ))}
-    </>
+    </VStack>
   )
 }
