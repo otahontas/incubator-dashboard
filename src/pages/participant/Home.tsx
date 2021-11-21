@@ -168,7 +168,7 @@ export default ({}) => {
               <Text> Checkpoint{i + 1} </Text>
               <Heading size="md"> {milestone.title} </Heading>
               <Box p="6" borderWidth="1px" borderRadius="md">
-                <Box onClick={() => {
+                <Box cursor='pointer' onClick={() => {
                   setCurrentlySelect(milestone)
                   infoOnOpen()
                   }}><MilestoneCardPart title="Intro" text={milestone.intro} />
