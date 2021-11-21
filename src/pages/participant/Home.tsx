@@ -13,18 +13,18 @@ import {
   VStack,
   Progress,
   Center,
-  Modal, 
+  Modal,
   ModalOverlay,
   ModalHeader,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalBody, 
+  ModalBody,
   Input,
-  FormLabel
+  FormLabel,
 } from "@chakra-ui/react"
-import {useDisclosure} from '@chakra-ui/hooks'
-import {Link} from 'react-router-dom'
+import { useDisclosure } from "@chakra-ui/hooks"
+import { Link } from "react-router-dom"
 import { AiOutlineTeam } from "react-icons/ai"
 import { useState } from "react"
 import useTeam from "../../hooks/useTeam"
@@ -56,6 +56,7 @@ export default ({}) => {
   const firestore = useFirestore()
 
   const toggleDone = async (milestoneTitle: string) => {
+    let toggledToDone
     let currentStagesById = stages.reduce(
       (acc, curr, i) => ({ ...acc, [curr.id]: { ...curr, index: i } }),
       {}
@@ -72,12 +73,14 @@ export default ({}) => {
       currentMilestonesByTitle[milestoneTitle].done = []
     }
     if (currentMilestonesByTitle[milestoneTitle].done.includes(userData.id)) {
+      toggledToDone = false
       currentMilestonesByTitle[milestoneTitle].done = [
         ...currentMilestonesByTitle[milestoneTitle].done.filter(
           (u) => u !== userData.id
         ),
       ]
     } else {
+      toggledToDone = true
       currentMilestonesByTitle[milestoneTitle].done.push(userData.id)
     }
 
@@ -96,14 +99,21 @@ export default ({}) => {
     await updateDoc(doc(firestore, "teams", userData.teamId), {
       roadmap: newStages,
     })
-    onOpen()
+    if (toggledToDone) {
+      onOpen()
+    }
   }
 
   const countValue = () => {
-    const {done, all } = stages.reduce((acc, curr) => ({
-      done: acc.done + curr.milestones.filter(m => m.done.includes(userData.id)).length,
-      all : acc.all + curr.milestones.length
-    }), {done: 0, all: 0})
+    const { done, all } = stages.reduce(
+      (acc, curr) => ({
+        done:
+          acc.done +
+          curr.milestones.filter((m) => m.done.includes(userData.id)).length,
+        all: acc.all + curr.milestones.length,
+      }),
+      { done: 0, all: 0 }
+    )
     return (done / all) * 100
   }
 
@@ -126,7 +136,9 @@ export default ({}) => {
             width="100%"
           />
         </div>
-        <Button as={Link} to={`/participant/team`} leftIcon={<AiOutlineTeam />}>Switch to team view</Button>
+        <Button as={Link} to={`/participant/team`} leftIcon={<AiOutlineTeam />}>
+          Switch to team view
+        </Button>
       </Flex>
 
       <HStack spacing="4" margin={4}>
