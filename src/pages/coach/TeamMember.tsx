@@ -34,10 +34,12 @@ const SingleFeedback = ({ feedback, weekNumber }) => {
               "fi-FI"
             )}
           </Text>
-          <Heading>Week {weekNumber}</Heading>
+          <Heading pl="2" size="lg">
+            Week {weekNumber}
+          </Heading>
         </Flex>
         <Box p="2">
-          <Heading size="md">
+          <Heading size="sm">
             What is the biggest improvement you have done this week?
           </Heading>
           <Text size="md" color="gray.600">
@@ -45,7 +47,7 @@ const SingleFeedback = ({ feedback, weekNumber }) => {
           </Text>
         </Box>
         <Box p="2">
-          <Heading size="md">
+          <Heading size="sm">
             What is the biggest obstacle you faced this week?
           </Heading>
           <Text size="md" color="gray.600">
@@ -53,13 +55,13 @@ const SingleFeedback = ({ feedback, weekNumber }) => {
           </Text>
         </Box>
         <Box p="2">
-          <Heading size="md">What have you learned this week?</Heading>
+          <Heading size="sm">What have you learned this week?</Heading>
           <Text size="md" color="gray.600">
             {feedback.learned}
           </Text>
         </Box>
         <Box p="2">
-          <Heading size="md">How excited are you to keep going?</Heading>
+          <Heading size="sm">How excited are you to keep going?</Heading>
           <Text size="md" color="gray.600">
             {feedback.morale} out of 5
           </Text>
