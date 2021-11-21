@@ -16,7 +16,11 @@ import {
   ResetButton,
   RadioGroupControl,
 } from "formik-chakra-ui"
-import { updateDoc, doc, serverTimestamp, addDoc, collection } from "firebase/firestore"
+import {
+  serverTimestamp,
+  addDoc,
+  collection,
+} from "firebase/firestore"
 import { useFirestore } from "reactfire"
 import useAuthenticatedUser from "../../hooks/useAuthenticatedUser"
 
@@ -27,11 +31,24 @@ interface WeeklyUpdateForm {
   morale: number | null
 }
 
-interface FormProps {
-  onSubmit: (values: WeeklyUpdateForm) => Promise<void>
-}
-
-const WeeklyUpdateForm = ({ onSubmit }: FormProps) => {
+export const WeeklyUpdateView = () => {
+  const toast = useToast()
+  const firestore = useFirestore()
+  const { status, data } = useAuthenticatedUser() as any
+  const onSubmit = async (values: any, { resetForm }) => {
+    await addDoc(collection(firestore, "users", data.id, "weeklyUpdates"), {
+      ...values,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    })
+    toast({
+      title: "Weekly update successfully submitted!",
+      status: "success",
+      isClosable: true,
+      duration: 5000,
+    })
+    resetForm()
+  }
   const initialValues = {
     biggestImprovement: "",
     biggestObstacle: "",
@@ -47,85 +64,63 @@ const WeeklyUpdateForm = ({ onSubmit }: FormProps) => {
   })
 
   return (
-    <Formik
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-      initialValues={initialValues}
-    >
-      {({ handleSubmit, isSubmitting }) => (
-        <Box
-          borderWidth="1px"
-          rounded="lg"
-          shadow="1px 1px 3px rgba(0,0,0,0.3)"
-          maxWidth={800}
-          p={6}
-          m="10px auto"
-          as="form"
-          width="100%"
-          onSubmit={handleSubmit as any}
-        >
-          <TextareaControl
-            name="biggestImprovement"
-            label="What is the biggest improvement you have done this week?"
-          />
-          <TextareaControl
-            name="biggestObstacle"
-            label="What is the biggest obstacle you faced this week?"
-          />
-          <TextareaControl
-            name="learned"
-            label="What have you learned this week?"
-          />
-          <RadioGroupControl
-            name="morale"
-            label="How is your motivation? How excited are you to keep going?"
-          >
-            <VStack w="100%">
-              <Flex w="70%" justify="space-between">
-                <Text>I just want to stop</Text>
-                <Text>Everything is going really well!</Text>
-              </Flex>
-              <Flex w="70%" justify="space-between">
-                <Radio value="1">1</Radio>
-                <Radio value="2">2</Radio>
-                <Radio value="3">3</Radio>
-                <Radio value="4">4</Radio>
-                <Radio value="5">5</Radio>
-              </Flex>
-            </VStack>
-          </RadioGroupControl>
-          <ButtonGroup style={{ marginTop: "8px" }}>
-            <SubmitButton isLoading={isSubmitting}>Submit</SubmitButton>
-            <ResetButton>Reset</ResetButton>
-          </ButtonGroup>
-        </Box>
-      )}
-    </Formik>
-  )
-}
-
-export const WeeklyUpdateView = () => {
-  const toast = useToast()
-  const firestore = useFirestore()
-  const { status, data } = useAuthenticatedUser() as any
-  const onSubmit = async (values: WeeklyUpdateForm, {resetForm}) => {
-    await addDoc(collection(firestore, "users", data.id, "weeklyUpdates"), {
-      ...values,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-    })
-    toast({
-      title: "Weekly update successfully submitted!",
-      status: "success",
-      isClosable: true,
-      duration: 5000,
-    })
-    resetForm()
-  }
-  return (
     <Flex p={8} direction="column" alignItems="center" width="">
       <Heading>Send weekly feedback</Heading>
-      <WeeklyUpdateForm onSubmit={onSubmit} />
+
+      <Formik
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+        initialValues={initialValues}
+      >
+        {({ handleSubmit, isSubmitting }) => (
+          <Box
+            borderWidth="1px"
+            rounded="lg"
+            shadow="1px 1px 3px rgba(0,0,0,0.3)"
+            maxWidth={800}
+            p={6}
+            m="10px auto"
+            as="form"
+            width="100%"
+            onSubmit={handleSubmit as any}
+          >
+            <TextareaControl
+              name="biggestImprovement"
+              label="What is the biggest improvement you have done this week?"
+            />
+            <TextareaControl
+              name="biggestObstacle"
+              label="What is the biggest obstacle you faced this week?"
+            />
+            <TextareaControl
+              name="learned"
+              label="What have you learned this week?"
+            />
+            <RadioGroupControl
+              name="morale"
+              label="How is your motivation? How excited are you to keep going?"
+            >
+              <VStack w="100%">
+                <Flex w="70%" justify="space-between">
+                  <Text>I just want to stop</Text>
+                  <Text>Everything is going really well!</Text>
+                </Flex>
+                <Flex w="70%" justify="space-between">
+                  <Radio value="1">1</Radio>
+                  <Radio value="2">2</Radio>
+                  <Radio value="3">3</Radio>
+                  <Radio value="4">4</Radio>
+                  <Radio value="5">5</Radio>
+                </Flex>
+              </VStack>
+            </RadioGroupControl>
+            <ButtonGroup style={{ marginTop: "8px" }}>
+              <SubmitButton isLoading={isSubmitting}>Submit</SubmitButton>
+              <ResetButton>Reset</ResetButton>
+            </ButtonGroup>
+          </Box>
+        )}
+      </Formik>
     </Flex>
   )
 }
