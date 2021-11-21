@@ -13,18 +13,18 @@ import {
   VStack,
   Progress,
   Center,
-  Modal, 
+  Modal,
   ModalOverlay,
   ModalHeader,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalBody, 
+  ModalBody,
   Input,
-  FormLabel
+  FormLabel,
 } from "@chakra-ui/react"
-import {useDisclosure} from '@chakra-ui/hooks'
-import {Link} from 'react-router-dom'
+import { useDisclosure } from "@chakra-ui/hooks"
+import { Link } from "react-router-dom"
 import { AiOutlineTeam } from "react-icons/ai"
 import { useState } from "react"
 import useTeam from "../../hooks/useTeam"
@@ -100,10 +100,15 @@ export default ({}) => {
   }
 
   const countValue = () => {
-    const {done, all } = stages.reduce((acc, curr) => ({
-      done: acc.done + curr.milestones.filter(m => m.done.includes(userData.id)).length,
-      all : acc.all + curr.milestones.length
-    }), {done: 0, all: 0})
+    const { done, all } = stages.reduce(
+      (acc, curr) => ({
+        done:
+          acc.done +
+          curr.milestones.filter((m) => m.done.includes(userData.id)).length,
+        all: acc.all + curr.milestones.length,
+      }),
+      { done: 0, all: 0 }
+    )
     return (done / all) * 100
   }
 
@@ -115,7 +120,7 @@ export default ({}) => {
             width: "100%",
             marginRight: "auto",
             paddingLeft: "16px",
-            paddingRight: "16px",
+            paddingRight: "24px",
           }}
         >
           <Progress
@@ -126,7 +131,14 @@ export default ({}) => {
             width="100%"
           />
         </div>
-        <Button as={Link} to={`/participant/team`} leftIcon={<AiOutlineTeam />}>Switch to team view</Button>
+        <Button
+          px="8"
+          as={Link}
+          to={`/participant/team`}
+          leftIcon={<AiOutlineTeam />}
+        >
+          Switch to team view
+        </Button>
       </Flex>
 
       <HStack spacing="4" margin={4}>
@@ -142,18 +154,14 @@ export default ({}) => {
         ))}
       </HStack>
 
-      <Heading as="h6" size="xs">
-        Team ID: {userData.teamId}. Send this to your friends!
-      </Heading>
-
-      <Divider py="8" />
+      <Divider mt="4" mb="2" />
       <Flex overflowX="auto">
         {activeStage.milestones.map((milestone, i) => (
           <Box key={milestone.title} p="6" w="400px">
             <VStack>
-              <Text> Checkpoint{i + 1} </Text>
+              <Text> Checkpoint {i + 1} </Text>
               <Heading size="md"> {milestone.title} </Heading>
-              <Box p="6" borderWidth="1px" borderRadius="md">
+              <Box p="6" borderWidth="1px" borderRadius="lg">
                 <MilestoneCardPart title="Intro" text={milestone.intro} />
                 <MilestoneCardPart title="Learn" text={milestone.learn} />
                 <Divider mb="6" />
@@ -185,6 +193,7 @@ export default ({}) => {
         ))}
       </Flex>
       <WeeklyUpdateView />
+      <Box h="12" />
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

@@ -16,7 +16,13 @@ import {
   ResetButton,
   RadioGroupControl,
 } from "formik-chakra-ui"
-import { updateDoc, doc, serverTimestamp, addDoc, collection } from "firebase/firestore"
+import {
+  updateDoc,
+  doc,
+  serverTimestamp,
+  addDoc,
+  collection,
+} from "firebase/firestore"
 import { useFirestore } from "reactfire"
 import useAuthenticatedUser from "../../hooks/useAuthenticatedUser"
 
@@ -122,7 +128,9 @@ export const WeeklyUpdateView = () => {
   }
   return (
     <>
-      <Heading>Send weekly feedback</Heading>
+      <Heading py="8" size="lg">
+        Send weekly feedback
+      </Heading>
       <WeeklyUpdateForm onSubmit={onSubmit} />
     </>
   )

@@ -11,9 +11,9 @@ export interface TeamCardProps {
 export default (props: TeamCardProps) => {
   const { team } = props
   const navigate = useNavigate()
-  const { data, status }= useAllUsers()
+  const { data, status } = useAllUsers()
 
-  if (status === 'loading') return <Loading />
+  if (status === "loading") return <Loading />
 
   return (
     <Box p="6" borderWidth="1px" borderRadius="lg">
@@ -22,13 +22,17 @@ export default (props: TeamCardProps) => {
         <IconButton
           aria-label="Expand team info"
           icon={<BsArrowsAngleExpand />}
-          onClick={() => navigate(`/coach/${team.id}`, { state: team })}
+          onClick={() => navigate(`/coach/team`, { state: team })}
         />
       </Flex>
-      <Text> Team members</Text>
-      {team.members.map(t => <Text>{
-        data.find(u => u.id === t)?.name || faker.name.findName()
-      }</Text>)}
+      <Heading pt="4" size="sm">
+        Team members
+      </Heading>
+      {team.members.map((t) => (
+        <Text>
+          {data.find((u) => u.id === t)?.name || faker.name.findName()}
+        </Text>
+      ))}
     </Box>
   )
 }
