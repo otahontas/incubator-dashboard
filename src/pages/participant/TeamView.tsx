@@ -31,7 +31,7 @@ export default () => {
           {team.name}
         </Heading>
       </HStack>
-      <Heading size="md">Team stage 1</Heading>
+      <Heading size="md">Team stage 0</Heading>
       <Divider my={8} />
       <TeamView team={team} userData={userData} />
     </Box>

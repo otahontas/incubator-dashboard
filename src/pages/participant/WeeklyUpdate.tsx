@@ -83,23 +83,27 @@ export const WeeklyUpdateView = () => {
             onSubmit={handleSubmit as any}
           >
             <TextareaControl
+              p="4"
               name="biggestImprovement"
               label="What is the biggest improvement you have done this week?"
             />
             <TextareaControl
+              p="4"
               name="biggestObstacle"
               label="What is the biggest obstacle you faced this week?"
             />
             <TextareaControl
+              p="4"
               name="learned"
               label="What have you learned this week?"
             />
             <RadioGroupControl
+              pl="4"
               name="morale"
               label="How is your motivation? How excited are you to keep going?"
             >
-              <VStack w="100%">
-                <Flex w="70%" justify="space-between">
+              <VStack p="2" w="100%">
+                <Flex py="2" w="80%" justify="space-between">
                   <Text>I just want to stop</Text>
                   <Text>Everything is going really well!</Text>
                 </Flex>
@@ -112,7 +116,7 @@ export const WeeklyUpdateView = () => {
                 </Flex>
               </VStack>
             </RadioGroupControl>
-            <ButtonGroup style={{ marginTop: "8px" }}>
+            <ButtonGroup pt="4" style={{ marginTop: "8px" }}>
               <SubmitButton isLoading={isSubmitting}>Submit</SubmitButton>
               <ResetButton>Reset</ResetButton>
             </ButtonGroup>

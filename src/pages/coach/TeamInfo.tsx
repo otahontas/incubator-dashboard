@@ -38,9 +38,9 @@ export default () => {
         </Heading>
       </HStack>
       <Heading mt="8" mb="8" size="md">
-        Team stage 1
+        Team stage 0
       </Heading>
-      <TeamView team={team} userData={userData} coachMode={true}/>
+      <TeamView team={team} userData={userData} coachMode={true} />
     </Box>
   )
 }
