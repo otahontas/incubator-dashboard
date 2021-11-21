@@ -38,8 +38,10 @@ import { InputControl } from "formik-chakra-ui"
 
 export default ({}) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen: infoOpen, onOpen: infoOnOpen, onClose: infoOnClose } = useDisclosure()
   const { status, data } = useTeam()
   const [currentStageId, setCurrentStageId] = useState(null)
+  const [currentlySelect, setCurrentlySelect] = useState(null)
   const { status: userStatus, data: userData } = useAuthenticatedUser()
 
   useEffect(() => {
@@ -166,10 +168,14 @@ export default ({}) => {
               <Text> Checkpoint{i + 1} </Text>
               <Heading size="md"> {milestone.title} </Heading>
               <Box p="6" borderWidth="1px" borderRadius="md">
-                <MilestoneCardPart title="Intro" text={milestone.intro} />
+                <Box onClick={() => {
+                  setCurrentlySelect(milestone)
+                  infoOnOpen()
+                  }}><MilestoneCardPart title="Intro" text={milestone.intro} />
                 <MilestoneCardPart title="Learn" text={milestone.learn} />
                 <Divider mb="6" />
                 <MilestoneCardPart title="Task" text={milestone.task} />
+                </Box>
                 <Center pt="8">
                   {milestone?.done && milestone.done.includes(userData.id) ? (
                     <Button
@@ -197,6 +203,46 @@ export default ({}) => {
         ))}
       </Flex>
       <WeeklyUpdateView />
+      <Modal isOpen={infoOpen && !!currentlySelect} onClose={infoOnClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>More Info</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Box>
+              <Box>
+                <Heading size='md'>Intro</Heading>
+                <Text>{currentlySelect?.intro}</Text>
+              </Box>
+              <Box mt={3}>
+                <Heading size='md'>Learn</Heading>
+                <Text>{currentlySelect?.learn}</Text>
+              </Box>
+              <Box mt={3}>
+                <Heading size='md'>Learn More Aalto Courses</Heading>
+                <Text>{currentlySelect?.learnMoreAaltoCourses}</Text>
+              </Box>
+              <Box mt={3}>
+                <Heading size='md'>Learn More Other</Heading>
+                <Text>{currentlySelect?.learnMoreOther}</Text>
+              </Box>
+              <Box mt={3}>
+                <Heading size='md'>Tasks</Heading>
+                <Text>{currentlySelect?.task}</Text>
+              </Box>
+            </Box>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="orange" mr={3} onClick={() => {
+              setCurrentlySelect(null)
+              infoOnClose()
+              }}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
