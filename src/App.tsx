@@ -16,7 +16,7 @@ const LoginButton = () => {
       <VStack>
         <Heading>Welcome to the Aalto Ventures</Heading>
         <Heading size="4xl" pb="12" color="orange">
-          Impact Studio Bäkkäri
+          Bäkkäri
         </Heading>
 
         <Button
