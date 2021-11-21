@@ -80,6 +80,7 @@ export default () => {
   return (
     <>
       <Heading>Users weekly feedbacks</Heading>
+      {data.length === 0 && <Text>User hasn't given any weekly feedbacks yet!</Text>}
       {data.map((f) => (
         <SingleFeedback key={f.biggestImprovement} feedback={f} />
       ))}
