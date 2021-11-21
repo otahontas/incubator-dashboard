@@ -134,6 +134,7 @@ export default () => {
 
   if (status === "loading") return <Loading />
   if (data.teamId) {
+    //@ts-ignore
     return <Home user={data} />
   }
   return (

@@ -92,6 +92,7 @@ export default ({}) => {
 
     const newMilestones = _.chain(Object.values(currentMilestonesByTitle))
       .sortBy("index")
+      //@ts-ignore
       .map((o) => _.omit(o, "index"))
       .value()
 
@@ -99,6 +100,7 @@ export default ({}) => {
 
     const newStages = _.chain(Object.values(currentStagesById))
       .sortBy("index")
+      //@ts-ignore
       .map((o) => _.omit(o, "index"))
       .value()
 
@@ -172,8 +174,9 @@ export default ({}) => {
             <VStack>
               <Text> Checkpoint {i + 1} </Text>
               <Heading size="md"> {milestone.title} </Heading>
-              <Box p="6" borderWidth="1px" borderRadius="lg">
+              <Box p="6" borderWidth="1px" borderRadius="md">
                 <Box
+                  cursor="pointer"
                   onClick={() => {
                     setCurrentlySelect(milestone)
                     infoOnOpen()
