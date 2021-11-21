@@ -14,8 +14,6 @@ export default (props: TeamCardProps) => {
   const { data, status }= useAllUsers()
 
   if (status === 'loading') return <Loading />
-  console.log(data)
-  console.log(team)
 
   return (
     <Box p="6" borderWidth="1px" borderRadius="lg">
