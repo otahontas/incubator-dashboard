@@ -40,7 +40,7 @@ export default () => {
       <Heading mt="8" mb="8" size="md">
         Team stage 1
       </Heading>
-      <TeamView team={team} userData={userData} />
+      <TeamView team={team} userData={userData} coachMode={true}/>
     </Box>
   )
 }
