@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react"
-import { Outlet } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,8 +9,9 @@ import {
 import { Link, useLocation } from "react-router-dom"
 
 export default () => {
-  const location = useLocation()
-  const path = location.pathname.slice(1).split("/")
+  const {pathname, state}= useLocation()
+  const navigate = useNavigate()
+  const path = pathname.slice(1).split("/")
 
   return (
     <Box pt="8" h="100vh" mx="32">
@@ -18,9 +19,8 @@ export default () => {
       <Breadcrumb>
         {path.length >= 1 && (
           <BreadcrumbItem>
-            <BreadcrumbLink
-              as={Link}
-              to="/coach"
+    <BreadcrumbLink 
+      onClick={() => navigate(`/coach`, { state })}
               isCurrentPage={path.length === 1}
             >
               Coach overview
@@ -29,7 +29,9 @@ export default () => {
         )}
         {path.length >= 2 && (
           <BreadcrumbItem>
-            <BreadcrumbLink>Team details</BreadcrumbLink>
+              <BreadcrumbLink onClick={() => navigate(`/coach/${path[1]}`, { state })}>
+Team details
+</BreadcrumbLink>
           </BreadcrumbItem>
         )}
         {path.length >= 3 && (

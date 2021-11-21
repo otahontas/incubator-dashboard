@@ -61,6 +61,7 @@ const WeeklyUpdateForm = ({ onSubmit }: FormProps) => {
           p={6}
           m="10px auto"
           as="form"
+          width="100%"
           onSubmit={handleSubmit as any}
         >
           <TextareaControl
@@ -122,9 +123,9 @@ export const WeeklyUpdateView = () => {
     resetForm()
   }
   return (
-    <>
+    <Flex p={8} direction="column" alignItems="center" width="">
       <Heading>Send weekly feedback</Heading>
       <WeeklyUpdateForm onSubmit={onSubmit} />
-    </>
+    </Flex>
   )
 }
