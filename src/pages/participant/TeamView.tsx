@@ -11,9 +11,16 @@ import { Link } from "react-router-dom"
 import faker from "faker"
 import useTeam from "../../hooks/useTeam"
 import { Progress } from "@chakra-ui/progress"
+import useAllUsers from "../../hooks/useAllUsers"
+import Loading from "../../sharedComponents/Loading"
 
 export default () => {
   const { status, data } = useTeam()
+  const { data: userData, status: userStatus } = useAllUsers()
+
+  if (userStatus === "loading") {
+    return <Loading />
+  }
   const team = data as Team
   return (
     <Box>
@@ -34,7 +41,10 @@ export default () => {
                 name="Dan Abrahmov"
                 src={faker.internet.avatar()}
               />
-              <Heading size="md">{faker.name.findName()}</Heading>
+              <Heading size="md">
+                {userData.find((u) => u.id === member)?.name ||
+                  faker.name.findName()}
+              </Heading>
             </HStack>
             <Divider mt={5} />
             {team.roadmap[0].milestones.length > 0 &&

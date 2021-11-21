@@ -191,7 +191,7 @@ export default ({}) => {
           <ModalHeader>Thank you for updating your status!</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <form>
+            <form onSubmit={(e) => e.preventDefault()}>
               <FormLabel>Feedback to the coaches</FormLabel>
               <Input />
             </form>
