@@ -56,6 +56,7 @@ export default ({}) => {
   const firestore = useFirestore()
 
   const toggleDone = async (milestoneTitle: string) => {
+    let toggledToDone
     let currentStagesById = stages.reduce(
       (acc, curr, i) => ({ ...acc, [curr.id]: { ...curr, index: i } }),
       {}
@@ -72,12 +73,14 @@ export default ({}) => {
       currentMilestonesByTitle[milestoneTitle].done = []
     }
     if (currentMilestonesByTitle[milestoneTitle].done.includes(userData.id)) {
+      toggledToDone = false
       currentMilestonesByTitle[milestoneTitle].done = [
         ...currentMilestonesByTitle[milestoneTitle].done.filter(
           (u) => u !== userData.id
         ),
       ]
     } else {
+      toggledToDone = true
       currentMilestonesByTitle[milestoneTitle].done.push(userData.id)
     }
 
@@ -96,7 +99,9 @@ export default ({}) => {
     await updateDoc(doc(firestore, "teams", userData.teamId), {
       roadmap: newStages,
     })
-    onOpen()
+    if (toggledToDone) {
+      onOpen()
+    }
   }
 
   const countValue = () => {
