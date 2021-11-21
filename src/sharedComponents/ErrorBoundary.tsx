@@ -21,7 +21,8 @@ export default class ErrorBoundary extends Component {
   }
 
   render() {
-    const { hasError, eventId } = this.state
+    //@ts-ignore
+    const { hasError } = this.state
     const { children } = this.props
     if (!hasError) return children
 

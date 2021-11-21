@@ -88,6 +88,7 @@ export default ({}) => {
 
     const newMilestones = _.chain(Object.values(currentMilestonesByTitle))
       .sortBy("index")
+      //@ts-ignore
       .map((o) => _.omit(o, "index"))
       .value()
 
@@ -95,6 +96,7 @@ export default ({}) => {
 
     const newStages = _.chain(Object.values(currentStagesById))
       .sortBy("index")
+      //@ts-ignore
       .map((o) => _.omit(o, "index"))
       .value()
 
