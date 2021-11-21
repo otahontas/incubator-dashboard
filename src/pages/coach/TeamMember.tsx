@@ -3,9 +3,9 @@ import useUsersWeeklyUpdates from "../../hooks/useUsersWeeklyUpdates"
 import Loading from "../../sharedComponents/Loading"
 import { useParams } from "react-router-dom"
 import { Text } from "@chakra-ui/react"
+import _ from 'lodash'
 
 const SingleFeedback = ({ feedback, weekNumber }) => {
-  console.log(feedback.createdAt)
   return (
     <Box
       borderWidth="1px"
@@ -71,19 +71,19 @@ const SingleFeedback = ({ feedback, weekNumber }) => {
   )
 }
 
+
 export default () => {
   const { memberId } = useParams()
   const { status, data } = useUsersWeeklyUpdates(memberId)
   if (status === "loading") return <Loading />
-  console.log(data)
   return (
     <VStack>
       <Heading pb="2">Users weekly feedbacks</Heading>
       {data.length === 0 && (
         <Text>User hasn't given any weekly feedbacks yet!</Text>
       )}
-      {data.map((f, i) => (
-        <Box py="2">
+      {_.reverse([...data]).map((f, i) => (
+        <Box py="2" width="650px">
           <SingleFeedback
             key={f.biggestImprovement}
             feedback={f}
