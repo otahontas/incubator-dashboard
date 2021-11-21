@@ -2,6 +2,7 @@ import { SimpleGrid, Heading, Box } from "@chakra-ui/react"
 import TeamCard from "./TeamCard"
 import { useFirestore, useFirestoreCollectionData } from "reactfire"
 import { collection, query } from "firebase/firestore"
+import faker from 'faker'
 import Loading from "../../sharedComponents/Loading"
 
 export default () => {
@@ -24,7 +25,7 @@ export default () => {
       <Heading>Teams</Heading>
       <SimpleGrid py="4" spacing="4" columns={[1, 1, 2, 3]}>
         {[...teams].map((team) => (
-          <TeamCard key={team.id} team={team} />
+          <TeamCard src={faker.image.avatar()} key={team.id} team={team} />
         ))}
       </SimpleGrid>
     </>

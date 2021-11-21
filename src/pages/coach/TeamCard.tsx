@@ -15,6 +15,7 @@ import faker from "faker"
 import { Link } from "react-router-dom"
 export interface TeamCardProps {
   team: Team
+  src: string
 }
 
 function getRandomIntInclusive(min, max) {
@@ -24,7 +25,7 @@ function getRandomIntInclusive(min, max) {
 }
 
 export default (props: TeamCardProps) => {
-  const { team } = props
+  const { team, src } = props
   const navigate = useNavigate()
   const { data, status } = useAllUsers()
 
@@ -39,7 +40,7 @@ export default (props: TeamCardProps) => {
       borderRadius="lg"
     >
       <HStack spacing="5">
-        <Avatar />
+        <Avatar src={src} />
         <Heading>{team.name}</Heading>
       </HStack>
       <Flex>
