@@ -14,7 +14,7 @@ import useAllUsers from "../hooks/useAllUsers"
 import useTeam from "../hooks/useTeam"
 import Loading from "./Loading"
 
-export default ({ team, userData }) => {
+export default ({ team, userData, coachMode = false}) => {
   return (
     <SimpleGrid spacing={5} columns={3}>
       {team.members.map((member) => (
@@ -25,7 +25,7 @@ export default ({ team, userData }) => {
           p="6"
           minW="300px"
         >
-          <HStack as={Link} to={`/coach/${team.id}/${member}`}>
+          <HStack as={coachMode && Link} to={coachMode && `/coach/${team.id}/${member}`}>
             <Avatar size="lg" src={faker.internet.avatar()} />
             <Heading pl="2" size="md">
               {userData.find((u) => u.id === member)?.name ||
