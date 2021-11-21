@@ -107,7 +107,7 @@ export const WeeklyUpdateView = () => {
   const toast = useToast()
   const firestore = useFirestore()
   const { status, data } = useAuthenticatedUser() as any
-  const onSubmit = async (values: WeeklyUpdateForm) => {
+  const onSubmit = async (values: WeeklyUpdateForm, {resetForm}) => {
     await addDoc(collection(firestore, "users", data.id, "weeklyUpdates"), {
       ...values,
       createdAt: serverTimestamp(),
@@ -119,6 +119,7 @@ export const WeeklyUpdateView = () => {
       isClosable: true,
       duration: 5000,
     })
+    resetForm()
   }
   return (
     <>
